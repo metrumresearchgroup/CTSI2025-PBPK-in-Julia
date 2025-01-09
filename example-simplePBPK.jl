@@ -112,7 +112,7 @@ end
 md"## Simulation"
 
 # ╔═╡ 71188600-569f-4ad5-9180-7f4ce42853e3
-md"## Create ODE problem"
+md"### Create ODE problem"
 
 # ╔═╡ 1b070a9f-f584-43ef-a55b-08b821b675c3
 # ╠═╡ show_logs = false
@@ -179,7 +179,7 @@ plot(sol, idxs = :MUSCLE)
 plot(sol_up, idxs = :MUSCLE)
 
 # ╔═╡ dff37987-b1ab-4721-85bb-92056e9eeb3b
-md"## Population simulation"
+md"### Simulate population"
 
 # ╔═╡ 29043929-0261-466e-ac2e-0e949e48ce7f
 begin
@@ -198,7 +198,7 @@ end
 plot(ensemble_sol, idxs=:MUSCLE)
 
 # ╔═╡ 4cbcfe37-7c53-4bfd-80af-1f0a1e89bc4a
-md"### Parallelization"
+md"#### Parallelization"
 
 # ╔═╡ 5899ee6e-0302-4e4d-9f34-45ae531c7c18
 @time ensemble_sol_serial = solve(ensemble_prob, Tsit5(), EnsembleSerial(), trajectories = 10);
@@ -242,6 +242,6 @@ md"### Parallelization"
 # ╟─dff37987-b1ab-4721-85bb-92056e9eeb3b
 # ╠═29043929-0261-466e-ac2e-0e949e48ce7f
 # ╠═c0f7b4dc-975a-44bc-b762-a4b1dfb9fa3c
-# ╟─4cbcfe37-7c53-4bfd-80af-1f0a1e89bc4a
+# ╠═4cbcfe37-7c53-4bfd-80af-1f0a1e89bc4a
 # ╠═5899ee6e-0302-4e4d-9f34-45ae531c7c18
 # ╠═dc660fe4-ad64-481b-b96c-606796aaa0b4
