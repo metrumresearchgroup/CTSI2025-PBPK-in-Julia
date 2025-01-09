@@ -16,8 +16,81 @@ md"# What is Julia?"
 # ╔═╡ 4e56ef31-9cf5-457c-ae45-2e1559defcd9
 md"# Why Julia?"
 
+# ╔═╡ 7516bd87-2218-4bf3-af57-c76619e6ac0c
+md"
+- Solves the two language problem
+- Composability of the ecosystem
+- SciML ecosystem
+"
+
+# ╔═╡ df3687ec-edff-471c-b64e-fac3af177f1a
+LocalResource(
+	"figs/sciml.png",
+	:width => 600
+)
+
+# ╔═╡ f8bb3bee-cb49-43ed-86eb-fd47563b774f
+md"https://docs.sciml.ai/Overview/stable/overview/"
+
 # ╔═╡ 3aae6539-f566-4b30-9807-16d0d6acbdd2
 md"# Syntax"
+
+# ╔═╡ 84245768-6b83-4a54-a6c3-d6e735d0e6fb
+md"## Commenting"
+
+# ╔═╡ 738a6cea-f68b-4450-8238-4ab8571b82ec
+md"## Arithmetic operations"
+
+# ╔═╡ 6398ec02-35d6-438c-b0e9-6a708ef59e2d
+md"## Logical operators"
+
+# ╔═╡ 0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
+md"## Variables and types"
+
+# ╔═╡ 098dfe77-902a-4dc9-b646-d60a275eefe9
+md"## Data structures"
+
+# ╔═╡ d33ce047-19e3-44c3-ae07-9e608ee8b1a2
+md"### Tuples"
+
+# ╔═╡ b559174e-af8b-4ccb-9027-f37ef4d24361
+md"### Disctionaries"
+
+# ╔═╡ fa9f01ec-85e7-4f29-b5ae-294f3901138a
+md"### Arrays"
+
+# ╔═╡ 86e666a3-6c82-4be5-8e86-459a2005b800
+md"#### Vectors"
+
+# ╔═╡ ae43b9ae-2544-496a-a770-207291330a7c
+md"#### Matrices"
+
+# ╔═╡ d7c37f0d-13c7-406c-a202-c15cd719571b
+md"#### Other"
+
+# ╔═╡ d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
+md"## Loops"
+
+# ╔═╡ 4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
+md"### While"
+
+# ╔═╡ d7282fac-6185-49ac-a265-f79a705e4269
+md"### For"
+
+# ╔═╡ 9b988296-794c-47a8-8f2d-6c6acf12fa9b
+md"## Conditionals"
+
+# ╔═╡ 6f0109c1-def8-4ad2-8590-5ead4f963296
+md"## Functions"
+
+# ╔═╡ 1b695a57-76ca-4071-9066-81fc93dc8802
+md"# Package Management"
+
+# ╔═╡ ac7ddc10-86b4-4860-a678-0fa687bb1364
+md"# Metaprogramming"
+
+# ╔═╡ 2c643d24-09f8-4023-8b87-bd148f71c865
+md"# Plotting"
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -314,6 +387,28 @@ version = "17.4.0+2"
 # ╟─195b30b8-2242-47c8-8006-1cad7c460883
 # ╟─dd5df476-ce4e-11ef-2e20-a90209692b8c
 # ╟─4e56ef31-9cf5-457c-ae45-2e1559defcd9
+# ╟─7516bd87-2218-4bf3-af57-c76619e6ac0c
+# ╟─df3687ec-edff-471c-b64e-fac3af177f1a
+# ╟─f8bb3bee-cb49-43ed-86eb-fd47563b774f
 # ╟─3aae6539-f566-4b30-9807-16d0d6acbdd2
+# ╟─84245768-6b83-4a54-a6c3-d6e735d0e6fb
+# ╟─738a6cea-f68b-4450-8238-4ab8571b82ec
+# ╟─6398ec02-35d6-438c-b0e9-6a708ef59e2d
+# ╟─0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
+# ╟─098dfe77-902a-4dc9-b646-d60a275eefe9
+# ╟─d33ce047-19e3-44c3-ae07-9e608ee8b1a2
+# ╟─b559174e-af8b-4ccb-9027-f37ef4d24361
+# ╟─fa9f01ec-85e7-4f29-b5ae-294f3901138a
+# ╟─86e666a3-6c82-4be5-8e86-459a2005b800
+# ╟─ae43b9ae-2544-496a-a770-207291330a7c
+# ╟─d7c37f0d-13c7-406c-a202-c15cd719571b
+# ╟─d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
+# ╟─4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
+# ╟─d7282fac-6185-49ac-a265-f79a705e4269
+# ╟─9b988296-794c-47a8-8f2d-6c6acf12fa9b
+# ╟─6f0109c1-def8-4ad2-8590-5ead4f963296
+# ╟─1b695a57-76ca-4071-9066-81fc93dc8802
+# ╟─ac7ddc10-86b4-4860-a678-0fa687bb1364
+# ╟─2c643d24-09f8-4023-8b87-bd148f71c865
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
