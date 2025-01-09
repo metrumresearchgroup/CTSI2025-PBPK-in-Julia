@@ -22,8 +22,9 @@ Let's build a PBPK model for voriconazole
 "
 
 # ╔═╡ 9d8005dc-89bd-42e4-a0b5-abcb75d3e80b
-Resource(
-	"figs/pbpk.png"
+LocalResource(
+	"figs/pbpk.png",
+	:width => 400
 )
 
 # ╔═╡ e308fc4a-157d-486b-8d06-317cbad4283d
@@ -2350,7 +2351,7 @@ version = "17.4.0+2"
 # ╟─1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
 # ╟─98a5a8f5-79ef-4cff-ab2e-592b5358a90f
 # ╟─3179d612-eb4e-4007-b3c5-18bbc2d8e4ed
-# ╠═9d8005dc-89bd-42e4-a0b5-abcb75d3e80b
+# ╟─9d8005dc-89bd-42e4-a0b5-abcb75d3e80b
 # ╟─e308fc4a-157d-486b-8d06-317cbad4283d
 # ╠═25751995-8656-4346-8dca-2df4c342b095
 # ╟─e8c04c18-9ed6-4e06-a7a9-362b6bb55de2
