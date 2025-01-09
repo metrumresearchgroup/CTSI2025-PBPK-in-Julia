@@ -33,10 +33,10 @@ LocalResource(
 )
 
 # ╔═╡ e308fc4a-157d-486b-8d06-317cbad4283d
-md"## Load libraries"
+md"## Libraries"
 
 # ╔═╡ e8c04c18-9ed6-4e06-a7a9-362b6bb55de2
-md"## Build the model"
+md"## Model development"
 
 # ╔═╡ 57966d02-b00e-4e65-b46d-43d9d343123d
 PBPK = function(; name)
@@ -174,6 +174,9 @@ end
 # ╔═╡ 106b1b40-4458-453d-b5bd-931969c9471b
 @mtkbuild pbpk = PBPK()
 
+# ╔═╡ d63b718e-1847-4c92-90c7-6b507293582f
+md"## Simulation"
+
 # ╔═╡ Cell order:
 # ╟─d242c44a-ce2e-11ef-3c3a-b366eaada965
 # ╟─1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
@@ -186,3 +189,4 @@ end
 # ╟─e8c04c18-9ed6-4e06-a7a9-362b6bb55de2
 # ╠═57966d02-b00e-4e65-b46d-43d9d343123d
 # ╠═106b1b40-4458-453d-b5bd-931969c9471b
+# ╟─d63b718e-1847-4c92-90c7-6b507293582f

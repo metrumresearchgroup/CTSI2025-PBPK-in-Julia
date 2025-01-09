@@ -12,7 +12,7 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 01d1f036-99f2-4ef6-8ab3-f1e5180fd5c5
-using DifferentialEquations, ModelingToolkit, Unitful, Plots;
+using DifferentialEquations, ModelingToolkit, Unitful, Plots, Random, Distributions;
 
 # ╔═╡ 179bbe7a-16f1-466f-baa0-a132a4f916ce
 TableOfContents()
@@ -36,12 +36,12 @@ LocalResource(
 
 # ╔═╡ 3a1c3888-1671-4bcc-bd0f-884d6e0e9365
 md"
-## Load libraries
+## Libraries
 "
 
 # ╔═╡ c4a4b27e-d053-4f70-aa2a-5ab7538780ee
 md"
-## Build model
+## Model development
 "
 
 # ╔═╡ ac7b62aa-29ec-4b61-a01e-8a582b10e928
@@ -94,7 +94,7 @@ ModelingToolkit.observed(pk)
 
 # ╔═╡ 7ffd9484-d960-4d7a-b9ae-ca09d0ba5e62
 md"
-## Run simulation
+## Simulation
 "
 
 # ╔═╡ df3ceb01-8b50-4771-89cb-7c54b77f5a03
@@ -162,6 +162,37 @@ begin
 	plot(sol_up, idxs = :c_cent)
 end
 
+# ╔═╡ 3b614ec7-564b-4bbe-9e02-442a4c93cff2
+md"### Population simulation"
+
+# ╔═╡ 360ee3c6-2c2e-48ff-b91e-44d96ae65fbf
+begin
+	## create simulation function
+	Random.seed!(123)  # set seed for reproducibility
+	function prob_func(prob, i, repeat)
+	    remake(prob; p = [:CL => rand(LogNormal(log(4.0), 0.2))])
+	end
+
+	## create an ensemble problem and solve
+	ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
+	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
+end
+
+# ╔═╡ a3496c93-c819-4074-b3ce-553677ac2520
+# plotting a specific output
+plot(ensemble_sol, xlab="Time(h)", ylab="Concentration (mg/L)", idxs = [:c_cent])
+
+# ╔═╡ 0766abe9-13db-4466-9f23-32a009995e3b
+md"#### Parallelization"
+
+# ╔═╡ 0dfe27d1-77d0-429f-8d5d-107a06a6b8b7
+@time ensemble_sol_serial = solve(ensemble_prob, Tsit5(), EnsembleSerial(), trajectories = 10);
+
+# ╔═╡ 6f0c09a8-74b4-4e0d-9a52-7144c9ec4d5f
+
+@time ensemble_sol_parallel = solve(ensemble_prob, Tsit5(), EnsembleThreads(), trajectories = 10);
+
+
 # ╔═╡ Cell order:
 # ╟─76902963-43fc-405d-9132-2ed8409fa56d
 # ╟─179bbe7a-16f1-466f-baa0-a132a4f916ce
@@ -197,3 +228,9 @@ end
 # ╠═62da16d4-f06c-4f89-88b3-5fc80e07f0fc
 # ╠═96df73e4-19f7-4a4a-b70e-aac0554a6252
 # ╠═77cb307b-4286-4e5d-b4a4-c1f421922682
+# ╟─3b614ec7-564b-4bbe-9e02-442a4c93cff2
+# ╠═360ee3c6-2c2e-48ff-b91e-44d96ae65fbf
+# ╠═a3496c93-c819-4074-b3ce-553677ac2520
+# ╟─0766abe9-13db-4466-9f23-32a009995e3b
+# ╠═0dfe27d1-77d0-429f-8d5d-107a06a6b8b7
+# ╠═6f0c09a8-74b4-4e0d-9a52-7144c9ec4d5f
