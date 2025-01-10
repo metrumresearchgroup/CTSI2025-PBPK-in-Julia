@@ -71,7 +71,7 @@ function PK(; name)
 		Dt(cent) ~ ka * depot - (CL / V) * cent
 	]
 
-	ODESystem(eqs, t, vars, pars; name=name, observed=observed, checks = ~ModelingToolkit.CheckUnits)  # 100124 unit checking is broken at this point so will suppress for now
+	ODESystem(eqs, t, vars, pars; name=name, observed=observed)  # 100124 unit checking is broken at this point so will suppress for now
 end
 
 # ╔═╡ 3604e6c4-a29d-45ee-af90-ae6d480a185b
