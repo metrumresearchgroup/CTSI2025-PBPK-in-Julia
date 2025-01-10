@@ -45,8 +45,13 @@ function PBPK(; name)
 	    sig_L = 0.2        # lymphatic capillary reflection coefficient (unitless), predefined as in 'several previous PBPK models'
 	    Kp = 0.8           # available fraction of ISF for mAb binding (unitless)
 	    CL_p = 0.35*2.6*(10^-3)*(1/s_per_h) # clearance from plasma (mL/h/kg to L/s)
-	    infusion_dur = 30*60 # duration of infusion (30 min to s)
-	    infusion_rate = 0   # rate of infusion (nmol/s)
+	    dose_mgkg = 1.0   # dose in mg/kg
+		cyno_WT = 2.6   # cyno weight = 3 kg
+		nmol_per_mol = 1.0e9
+		DB_MW = 150000.0    # molecular weight
+		dose = dose_mgkg*(cyno_WT)*(1/DB_MW)*(1/1e3)*(nmol_per_mol)
+		infusion_dur = 30*60 # duration of infusion (30 min to s)
+	    infusion_rate = dose/infusion_dur   # rate of infusion (nmol/s)
 	    k_off = KD_FAPa*k_on
 	    k_deg = log(2)/(Thalf_FAPa * s_per_h)
 	    V_tight = 0.30108 #0.65 * ISF * Kp,
