@@ -12,7 +12,7 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 5c029511-b19e-4542-821b-90e55c892d1e
-using DifferentialEquations, ModelingToolkit
+using DifferentialEquations, ModelingToolkit, Plots
 
 # ╔═╡ 85db720a-2909-4073-957a-bb118babed7d
 TableOfContents()
@@ -51,7 +51,7 @@ function PBPK(; name)
 		DB_MW = 150000.0    # molecular weight
 		dose = dose_mgkg*(cyno_WT)*(1/DB_MW)*(1/1e3)*(nmol_per_mol)
 		infusion_dur = 30*60 # duration of infusion (30 min to s)
-	    infusion_rate = dose/infusion_dur   # rate of infusion (nmol/s)
+	    infusion_rate(t) = dose/infusion_dur   # rate of infusion (nmol/s)
 	    k_off = KD_FAPa*k_on
 	    k_deg = log(2)/(Thalf_FAPa * s_per_h)
 	    V_tight = 0.30108 #0.65 * ISF * Kp,
@@ -97,28 +97,21 @@ function PBPK(; name)
 	    Dt(C_lymph) ~ 1/V_lymph * (L_tight * (1 - sig_L) * C_tight + L_leaky * (1 - sig_L) * C_leaky - L * C_lymph)
 	]
 
-	ODESystem(eqs, t, vars, pars; name=name)
+	ODESystem(eqs, t, vars, pars; name=name, discrete_events=[[30*60] => [infusion_rate ~ 0.0]])
 end
 
 # ╔═╡ 6228f0fb-7385-4de4-b681-1b03cf621644
 @mtkbuild pbpk = PBPK()
 
-# ╔═╡ b8fac44c-b674-4866-8b0b-dd3b648c4edc
-infusion_rate_index = ModelingToolkit.parameter_index(pbpk, :infusion_rate).idx 
-
-# ╔═╡ 6fa69291-8913-4f96-aad1-3b515294dc37
-begin
-	# Stop the infusion after the infusion duration ; 30 min
-     affect!(integrator) = integrator.p[infusion_rate_index] = 0;
-     cb = PresetTimeCallback([30*60], affect!);
-end
-
-# ╔═╡ e539ec22-55a1-4bdf-a165-87ed8973085d
+# ╔═╡ 4bbf1703-c5ea-4f48-8f57-99735862e2cc
 begin
 	tspan = (0.0, 504.5*3600.0)
-    prob = ODEProblem(pbpk, [], tspan, [])
-    sol = solve(prob, callback = cb, saveat = 60.0)
+	prob = ODEProblem(pbpk, [], tspan, [])
+	sol = solve(prob, saveat = 60.0)
 end
+
+# ╔═╡ 591357ca-8044-4656-8705-96d7f075f41b
+plot(sol, idxs = pbpk.C_plasma)
 
 # ╔═╡ Cell order:
 # ╟─0bf4c192-cee6-11ef-1f91-1fd13e6da49e
@@ -127,6 +120,5 @@ end
 # ╠═5c029511-b19e-4542-821b-90e55c892d1e
 # ╠═434bca6d-cd0f-4a07-91bf-668a20df2699
 # ╠═6228f0fb-7385-4de4-b681-1b03cf621644
-# ╠═b8fac44c-b674-4866-8b0b-dd3b648c4edc
-# ╠═6fa69291-8913-4f96-aad1-3b515294dc37
-# ╠═e539ec22-55a1-4bdf-a165-87ed8973085d
+# ╠═4bbf1703-c5ea-4f48-8f57-99735862e2cc
+# ╠═591357ca-8044-4656-8705-96d7f075f41b
