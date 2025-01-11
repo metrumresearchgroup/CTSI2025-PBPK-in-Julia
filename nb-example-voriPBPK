@@ -12,7 +12,7 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 25751995-8656-4346-8dca-2df4c342b095
-using DifferentialEquations, ModelingToolkit, Unitful, Plots
+using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, Optimization, OptimizationOptimJL, OptimizationNLopt
 
 # ╔═╡ 1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
 TableOfContents()
@@ -196,17 +196,101 @@ plot(sol, idxs = :CP)
 md"## Optimization"
 
 # ╔═╡ aa86aafd-e409-4180-a51b-15b74aae8ffd
-md"### Create observed data"
+md"### Read observed data"
 
 # ╔═╡ 8aa63f09-d953-4459-a50a-3a2665722b7c
-begin
-	timepoints = [0.0, 0.5, 1.0, 2.0, 4.0, 6.0, 12.0]
-	dat = solve(prob, Tsit5(), saveat = timepoints)
-	dat = dat[:CP]
-end
+# https://link.springer.com/article/10.1007/s00228-010-0869-3
+dat = CSV.read("shi2010-fig1.csv", DataFrame)
 
 # ╔═╡ b4891fca-ccf1-40f8-b437-f9b8fab4c1f5
-plot(timepoints, dat)
+md"### Initial simulation"
+
+# ╔═╡ 943810c3-7f3a-4502-9970-199f1e40578c
+sol_init = solve(prob, Tsit5(), saveat = dat.time)
+
+# ╔═╡ a675ead7-4d59-406d-a37f-66dda9d0ee13
+begin
+	scatter(dat.time, dat.conc)
+	plot!(sol_init, idxs = :CP)
+end
+
+# ╔═╡ 81b539c1-4478-4ccb-a88a-c15d44e32584
+begin
+	#prob2 = remake(prob, p = [:ka => 2.0, :Kpmu => 0.01, :Kpli => 15.0, :MPPGL => 40.0, :Kpad => 40.0, :VmaxH => 10.0, :KmH => 15.0, :BP => 0.55])
+	prob2 = remake(prob, p = [:ka => 2.0, :Kpmu => 0.1, :Kpli => 15.0, :BP => 0.55])
+	#prob2 = remake(prob, p = [:ka => 1.0, :VmaxH => 10.0])
+	sol2 = solve(prob2, Tsit5(), saveat = dat.time)
+	scatter(dat.time, dat.conc)
+	plot!(sol2, idxs = :CP)
+end
+
+# ╔═╡ e03f2738-e7f0-402c-b7fc-8689dbc79b9b
+dat.conc
+
+# ╔═╡ 71b3c99f-0ac7-438b-b977-ccd781a8eada
+sol_init[:CP]
+
+# ╔═╡ 6b4a2a16-6856-417a-9a91-e00f71c62b91
+md"### Create loss function"
+
+# ╔═╡ 651760f9-9faa-47a4-a5b9-8b3860390c36
+function loss(x, p, pred=false)
+    # extract info
+    odeprob, dat = p  # ODEProblem stored as parameters to avoid using global variables
+    # remake the problem, passing in our new parameter object
+	newprob = remake(odeprob; p = [:ka => x[1], :Kpmu => x[2], :Kpli => x[3], :BP => x[4]])
+    #newprob = remake(odeprob; p = Dict([:ka => x.ka, :VmaxH => x.VmaxH]))
+	#newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu]))
+    sol = solve(newprob, Tsit5(), saveat = dat.time);
+    if pred; return sol; end
+	if length(dat.conc) != length(sol[:CP])
+		return Inf
+	else
+    	return sum(abs2, dat.conc .- sol[:CP])
+	end
+end
+
+# ╔═╡ 8f473f67-ff48-44cb-a948-84f1c2315588
+# define initial param values
+#θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu])
+θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu], Kpli = prob.ps[:Kpli], BP = prob.ps[:BP])
+
+# ╔═╡ ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
+θ[2]
+
+# ╔═╡ 8831e5b7-5359-4f29-9095-36808fa19c35
+# define constant parameters
+p_const = (prob, dat);
+
+# ╔═╡ beff6baa-0149-4f9e-8519-589279621f0d
+begin
+	# define callback to track losses
+	losses = Float64[]
+	
+	callback = function (p, l)
+	  push!(losses, l)
+	  if length(losses)%50==0
+	      println("Current loss after $(length(losses)) iterations: $(losses[end])")
+	  end
+	  return false
+	end
+end
+
+# ╔═╡ 58bba3ca-6e38-4e89-ba65-840fe23efec0
+θ.ka
+
+# ╔═╡ 03d6ed14-6152-4ab9-8076-ae1daef740ae
+prob.ps[:VmaxH]
+
+# ╔═╡ e28f9182-a414-44ac-9c76-6c855bae1f6c
+begin
+	# define optimization function and problem then optimize 
+	optfn = OptimizationFunction(loss)
+	optprob = OptimizationProblem(optfn, θ, p_const)
+	#p_optim = solve(optprob, Optim.NelderMead())
+	p_optim = solve(optprob, NLopt.LN_SBPLX())
+	#p_optim = solve(optprob, NLopt.LN_BOBYQA())
+end
 
 # ╔═╡ Cell order:
 # ╟─d242c44a-ce2e-11ef-3c3a-b366eaada965
@@ -229,4 +313,18 @@ plot(timepoints, dat)
 # ╟─8039ca65-bb01-4428-b3c5-6de0c866912c
 # ╟─aa86aafd-e409-4180-a51b-15b74aae8ffd
 # ╠═8aa63f09-d953-4459-a50a-3a2665722b7c
-# ╠═b4891fca-ccf1-40f8-b437-f9b8fab4c1f5
+# ╟─b4891fca-ccf1-40f8-b437-f9b8fab4c1f5
+# ╠═943810c3-7f3a-4502-9970-199f1e40578c
+# ╠═a675ead7-4d59-406d-a37f-66dda9d0ee13
+# ╠═81b539c1-4478-4ccb-a88a-c15d44e32584
+# ╠═e03f2738-e7f0-402c-b7fc-8689dbc79b9b
+# ╠═71b3c99f-0ac7-438b-b977-ccd781a8eada
+# ╟─6b4a2a16-6856-417a-9a91-e00f71c62b91
+# ╠═651760f9-9faa-47a4-a5b9-8b3860390c36
+# ╠═8f473f67-ff48-44cb-a948-84f1c2315588
+# ╠═ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
+# ╠═8831e5b7-5359-4f29-9095-36808fa19c35
+# ╠═beff6baa-0149-4f9e-8519-589279621f0d
+# ╠═58bba3ca-6e38-4e89-ba65-840fe23efec0
+# ╠═03d6ed14-6152-4ab9-8076-ae1daef740ae
+# ╠═e28f9182-a414-44ac-9c76-6c855bae1f6c
