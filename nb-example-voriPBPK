@@ -12,7 +12,7 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 25751995-8656-4346-8dca-2df4c342b095
-using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, Optimization, OptimizationOptimJL, OptimizationNLopt
+using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, Optimization, OptimizationOptimJL
 
 # ╔═╡ 1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
 TableOfContents()
@@ -77,16 +77,16 @@ PBPK = function(; name)
   		Kpgu = 5.82   # gut:plasma
   		Kphe = 1.95   # heart:plasma
   		Kpki = 2.9    # kidney:plasma
-  		Kpli = 4.66   # liver:plasma
+  		Kpli = 15.0  #4.66   # liver:plasma
   		Kplu = 0.83   # lungs:plasma
-  		Kpmu = 2.94   # muscle:plasma; optimized
+  		Kpmu = 0.5  #2.94   # muscle:plasma; optimized
   		Kpsp = 2.96   # spleen:plasma
   		Kpre = 4      # calculated as average of non adipose Kps
-  		BP = 1        # blood:plasma ratio
+  		BP = 0.55 # 1        # blood:plasma ratio
 
 		# other parameters
   		WEIGHT = 73
-  		ka = 0.849   # absorption rate constant (/hr) 
+  		ka = 2.0  #0.849   # absorption rate constant (/hr) 
   		fup = 0.42   # fraction of unbound drug in plasma
   
   		# in vitro hepatic clearance parameters http://dmd.aspetjournals.org/content/38/1/25.long
@@ -217,7 +217,7 @@ end
 # ╔═╡ 81b539c1-4478-4ccb-a88a-c15d44e32584
 begin
 	#prob2 = remake(prob, p = [:ka => 2.0, :Kpmu => 0.01, :Kpli => 15.0, :MPPGL => 40.0, :Kpad => 40.0, :VmaxH => 10.0, :KmH => 15.0, :BP => 0.55])
-	prob2 = remake(prob, p = [:ka => 2.0, :Kpmu => 0.1, :Kpli => 15.0, :BP => 0.55])
+	prob2 = remake(prob; p = [:ka => 2.0, :Kpmu => 0.1, :Kpli => 15.0, :Kpad => 10.0, :BP => 0.55])
 	#prob2 = remake(prob, p = [:ka => 1.0, :VmaxH => 10.0])
 	sol2 = solve(prob2, Tsit5(), saveat = dat.time)
 	scatter(dat.time, dat.conc)
@@ -238,15 +238,16 @@ function loss(x, p, pred=false)
     # extract info
     odeprob, dat = p  # ODEProblem stored as parameters to avoid using global variables
     # remake the problem, passing in our new parameter object
-	newprob = remake(odeprob; p = [:ka => x[1], :Kpmu => x[2], :Kpli => x[3], :BP => x[4]])
-    #newprob = remake(odeprob; p = Dict([:ka => x.ka, :VmaxH => x.VmaxH]))
+	#newprob = remake(odeprob; u0 = Dict(), p = [:ka => x[1], :Kpmu => x[2], :Kpli => x[3], :BP => x[4]])
+    newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu, :Kpli => x.Kpli, :BP => x.BP]))
 	#newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu]))
     sol = solve(newprob, Tsit5(), saveat = dat.time);
     if pred; return sol; end
 	if length(dat.conc) != length(sol[:CP])
 		return Inf
 	else
-    	return sum(abs2, dat.conc .- sol[:CP])
+		return sum(abs2, dat.conc .- sol[:CP])
+    	#return sum(abs2, log.(dat.conc) .- log.(sol[:CP]))
 	end
 end
 
@@ -256,11 +257,17 @@ end
 θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu], Kpli = prob.ps[:Kpli], BP = prob.ps[:BP])
 
 # ╔═╡ ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
-θ[2]
+sol_init[:CP]
+
+# ╔═╡ 9a5c2244-e2d8-430c-a3c9-394d26194bf7
+dat
+
+# ╔═╡ 1c85ba47-2baa-4c8d-b3f2-59cf56483464
+dat2 = DataFrame(time = sol_init.t, conc = sol_init[:CP])
 
 # ╔═╡ 8831e5b7-5359-4f29-9095-36808fa19c35
 # define constant parameters
-p_const = (prob, dat);
+p_const = (prob, dat[2:end,:]);
 
 # ╔═╡ beff6baa-0149-4f9e-8519-589279621f0d
 begin
@@ -285,11 +292,33 @@ prob.ps[:VmaxH]
 # ╔═╡ e28f9182-a414-44ac-9c76-6c855bae1f6c
 begin
 	# define optimization function and problem then optimize 
-	optfn = OptimizationFunction(loss)
+	#optfn = OptimizationFunction(loss)
+	optfn = OptimizationFunction(loss, Optimization.AutoForwardDiff())
 	optprob = OptimizationProblem(optfn, θ, p_const)
 	#p_optim = solve(optprob, Optim.NelderMead())
-	p_optim = solve(optprob, NLopt.LN_SBPLX())
-	#p_optim = solve(optprob, NLopt.LN_BOBYQA())
+	p_optim = solve(optprob, Optim.LBFGS())
+end
+
+# ╔═╡ ebd2719a-f5fc-4ba0-849d-cee4421e8b37
+p_optim.retcode
+
+# ╔═╡ d0ffcaa0-0569-4457-8eb0-aa3e829b42b9
+println(θ)
+
+# ╔═╡ c26dc0d1-e27d-4b21-8881-f87e99b79e08
+println(p_optim.u)
+
+# ╔═╡ 7764c9e9-b66b-4679-8512-40d7de180c8a
+pred_before = loss(θ, p_const, true)
+
+# ╔═╡ 584f8a03-231f-47a3-bab6-1391e412b448
+pred_after = loss(p_optim.u, p_const, true)
+
+# ╔═╡ ec600ce9-68c3-4c84-98bc-447a943a7ac2
+begin
+	scatter(dat.time, dat.conc, label = "data")
+	plot!(pred_before, idxs = :CP, label = "initial")
+	plot!(pred_after, idxs = :CP, label = "optimized")
 end
 
 # ╔═╡ Cell order:
@@ -323,8 +352,16 @@ end
 # ╠═651760f9-9faa-47a4-a5b9-8b3860390c36
 # ╠═8f473f67-ff48-44cb-a948-84f1c2315588
 # ╠═ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
+# ╠═9a5c2244-e2d8-430c-a3c9-394d26194bf7
+# ╠═1c85ba47-2baa-4c8d-b3f2-59cf56483464
 # ╠═8831e5b7-5359-4f29-9095-36808fa19c35
 # ╠═beff6baa-0149-4f9e-8519-589279621f0d
 # ╠═58bba3ca-6e38-4e89-ba65-840fe23efec0
 # ╠═03d6ed14-6152-4ab9-8076-ae1daef740ae
 # ╠═e28f9182-a414-44ac-9c76-6c855bae1f6c
+# ╠═ebd2719a-f5fc-4ba0-849d-cee4421e8b37
+# ╠═d0ffcaa0-0569-4457-8eb0-aa3e829b42b9
+# ╠═c26dc0d1-e27d-4b21-8881-f87e99b79e08
+# ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
+# ╠═584f8a03-231f-47a3-bab6-1391e412b448
+# ╠═ec600ce9-68c3-4c84-98bc-447a943a7ac2
