@@ -290,6 +290,9 @@ end
 # ╔═╡ 03d6ed14-6152-4ab9-8076-ae1daef740ae
 prob.ps[:VmaxH]
 
+# ╔═╡ b23f7e84-eb0c-40a6-893a-dc040e13d357
+md"### Optimize"
+
 # ╔═╡ e28f9182-a414-44ac-9c76-6c855bae1f6c
 # ╠═╡ show_logs = false
 begin
@@ -310,6 +313,9 @@ println(θ)
 
 # ╔═╡ c26dc0d1-e27d-4b21-8881-f87e99b79e08
 println(p_optim.u)
+
+# ╔═╡ 7e417e58-455f-4a22-b196-a9b82c1484ee
+md"### Validate"
 
 # ╔═╡ 7764c9e9-b66b-4679-8512-40d7de180c8a
 pred_before = loss(θ, p_const, true)
@@ -361,10 +367,12 @@ end
 # ╠═beff6baa-0149-4f9e-8519-589279621f0d
 # ╠═58bba3ca-6e38-4e89-ba65-840fe23efec0
 # ╠═03d6ed14-6152-4ab9-8076-ae1daef740ae
+# ╟─b23f7e84-eb0c-40a6-893a-dc040e13d357
 # ╠═e28f9182-a414-44ac-9c76-6c855bae1f6c
 # ╠═ebd2719a-f5fc-4ba0-849d-cee4421e8b37
 # ╠═d0ffcaa0-0569-4457-8eb0-aa3e829b42b9
 # ╠═c26dc0d1-e27d-4b21-8881-f87e99b79e08
+# ╟─7e417e58-455f-4a22-b196-a9b82c1484ee
 # ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
 # ╠═584f8a03-231f-47a3-bab6-1391e412b448
 # ╠═ec600ce9-68c3-4c84-98bc-447a943a7ac2
