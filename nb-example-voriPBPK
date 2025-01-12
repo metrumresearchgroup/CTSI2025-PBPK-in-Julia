@@ -77,16 +77,16 @@ PBPK = function(; name)
   		Kpgu = 5.82   # gut:plasma
   		Kphe = 1.95   # heart:plasma
   		Kpki = 2.9    # kidney:plasma
-  		Kpli = 15.0  #4.66   # liver:plasma
+  		Kpli = 4.66  #15.0  #4.66   # liver:plasma
   		Kplu = 0.83   # lungs:plasma
-  		Kpmu = 0.5  #2.94   # muscle:plasma; optimized
+  		Kpmu = 2.94  #0.5  #2.94   # muscle:plasma; optimized
   		Kpsp = 2.96   # spleen:plasma
   		Kpre = 4      # calculated as average of non adipose Kps
-  		BP = 0.55 # 1        # blood:plasma ratio
+  		BP = 1.0  #0.55 # 1        # blood:plasma ratio
 
 		# other parameters
   		WEIGHT = 73
-  		ka = 2.0  #0.849   # absorption rate constant (/hr) 
+  		ka = 0.849  #2.0  #0.849   # absorption rate constant (/hr) 
   		fup = 0.42   # fraction of unbound drug in plasma
   
   		# in vitro hepatic clearance parameters http://dmd.aspetjournals.org/content/38/1/25.long
@@ -242,6 +242,7 @@ function loss(x, p, pred=false)
     newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu, :Kpli => x.Kpli, :BP => x.BP]))
 	#newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu]))
     sol = solve(newprob, Tsit5(), saveat = dat.time);
+	#sol = solve(newprob, AutoTsit5(Rosenbrock23()), saveat = dat.time);
     if pred; return sol; end
 	if length(dat.conc) != length(sol[:CP])
 		return Inf
