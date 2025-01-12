@@ -239,7 +239,7 @@ function loss(x, p, pred=false)
     odeprob, dat = p  # ODEProblem stored as parameters to avoid using global variables
     # remake the problem, passing in our new parameter object
 	#newprob = remake(odeprob; u0 = Dict(), p = [:ka => x[1], :Kpmu => x[2], :Kpli => x[3], :BP => x[4]])
-    newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu, :Kpli => x.Kpli, :BP => x.BP]))
+    newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu, :Kpli => x.Kpli, :Kpad => x.Kpad, :BP => x.BP]))
 	#newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu]))
     sol = solve(newprob, Tsit5(), saveat = dat.time);
 	#sol = solve(newprob, AutoTsit5(Rosenbrock23()), saveat = dat.time);
@@ -255,7 +255,7 @@ end
 # ╔═╡ 8f473f67-ff48-44cb-a948-84f1c2315588
 # define initial param values
 #θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu])
-θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu], Kpli = prob.ps[:Kpli], BP = prob.ps[:BP])
+θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu], Kpli = prob.ps[:Kpli], Kpad = prob.ps[:Kpad], BP = prob.ps[:BP])
 
 # ╔═╡ ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
 sol_init[:CP]
@@ -296,9 +296,10 @@ begin
 	# define optimization function and problem then optimize 
 	#optfn = OptimizationFunction(loss)
 	optfn = OptimizationFunction(loss, Optimization.AutoForwardDiff())
-	optprob = OptimizationProblem(optfn, θ, p_const)
-	#p_optim = solve(optprob, Optim.NelderMead())
-	p_optim = solve(optprob, Optim.LBFGS())
+	#optprob = OptimizationProblem(optfn, θ, p_const)
+	optprob = OptimizationProblem(optfn, θ, p_const, lb = [0.1,0.01,0.1,0.1,0.5], ub = [5.0,20.0,20.0,30.0,2.0])
+	p_optim = solve(optprob, Optim.NelderMead())
+	#p_optim = solve(optprob, Optim.LBFGS())
 end
 
 # ╔═╡ ebd2719a-f5fc-4ba0-849d-cee4421e8b37
