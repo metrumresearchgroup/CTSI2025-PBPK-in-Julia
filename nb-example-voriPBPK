@@ -326,7 +326,7 @@ pred_after = loss(p_optim.u, p_const, true)
 # ╔═╡ ec600ce9-68c3-4c84-98bc-447a943a7ac2
 begin
 	scatter(dat.time, dat.conc, label = "data")
-	plot!(pred_before, idxs = :CP, label = "initial")
+	plot!(pred_before, idxs = :CP, label = "initial", linestyle = :dash)
 	plot!(pred_after, idxs = :CP, label = "optimized")
 end
 
