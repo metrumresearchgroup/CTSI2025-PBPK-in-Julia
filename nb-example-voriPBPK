@@ -45,18 +45,17 @@ PBPK = function(; name)
 
 	pars = @parameters begin
 		# volumes (L); source: https://www.ncbi.nlm.nih.gov/pubmed/14506981
-		Vad = 18.2, [description = "adipose volume"]
-  		Vbo = 10.5, [description = "bone volume"] 
-  		Vbr = 1.45, [description = "brain volume"]
-  		VguWall = 0.65, [description = "gut volume"]
-  		VguLumen = 0.35, [description = "gut volume"]
-  		Vhe = 0.33, [description = "heart volume"]
-  		Vki = 0.31, [description = "kidney volume"]
-  		Vli = 1.8, [description = "liver volume"]
-  		Vlu = 0.5, [description = "lung volume"]
-  		Vmu = 29, [description = "muscle volume"]
-  		Vsp = 0.15, [description = "spleen volume"]
-  		Vbl = 5.6, [description = "blood volume"]
+		Vad = 18.2
+  		Vbo = 10.5 
+  		Vbr = 1.45
+  		Vgu = 0.65
+  		Vhe = 0.33
+  		Vki = 0.31
+  		Vli = 1.8
+  		Vlu = 0.5
+  		Vmu = 29
+  		Vsp = 0.15
+  		Vbl = 5.6
 
 		# blood flows (L/h); Cardiac output = 6.5 (L/min); source: https://www.ncbi.nlm.nih.gov/pubmed/14506981 
 		Qad = 0.05*6.5*60
@@ -77,12 +76,12 @@ PBPK = function(; name)
   		Kpgu = 5.82   # gut:plasma
   		Kphe = 1.95   # heart:plasma
   		Kpki = 2.9    # kidney:plasma
-  		Kpli = 4.66  #15.0  #4.66   # liver:plasma
+  		Kpli = 4.66   # liver:plasma
   		Kplu = 0.83   # lungs:plasma
-  		Kpmu = 2.94  #0.5  #2.94   # muscle:plasma; optimized
+  		Kpmu = 2.94   # muscle:plasma; optimized
   		Kpsp = 2.96   # spleen:plasma
   		Kpre = 4      # calculated as average of non adipose Kps
-  		BP = 1.0  #0.55 # 1        # blood:plasma ratio
+  		BP = 1.0      # blood:plasma ratio
 
 		# other parameters
   		WEIGHT = 73
@@ -120,7 +119,7 @@ PBPK = function(; name)
 	# additional volume derivations
   	Vve = 0.705*Vbl  # venous blood
     Var = 0.295*Vbl  # arterial blood
-    Vre = WEIGHT - (Vli+Vki+Vsp+Vhe+Vlu+Vbo+Vbr+Vmu+Vad+VguWall+Vbl)  # volume of rest of the body compartment
+    Vre = WEIGHT - (Vli+Vki+Vsp+Vhe+Vlu+Vbo+Vbr+Vmu+Vad+Vgu+Vbl)  # volume of rest of the body compartment
   
     # additional blood flow derivation
     Qli = Qgu + Qsp + Qha
@@ -142,8 +141,7 @@ PBPK = function(; name)
     Crest = REST/Vre
     Carterial = ART/Var
     Cvenous = VEN/Vve
-    CgutLumen = GUTLUMEN/VguLumen
-    Cgut = GUT/VguWall
+    Cgut = GUT/Vgu
 
 	observed = [
 		CP ~ Cvenous/BP
@@ -214,22 +212,6 @@ begin
 	plot!(sol_init, idxs = :CP)
 end
 
-# ╔═╡ 81b539c1-4478-4ccb-a88a-c15d44e32584
-begin
-	#prob2 = remake(prob, p = [:ka => 2.0, :Kpmu => 0.01, :Kpli => 15.0, :MPPGL => 40.0, :Kpad => 40.0, :VmaxH => 10.0, :KmH => 15.0, :BP => 0.55])
-	prob2 = remake(prob; p = [:ka => 2.0, :Kpmu => 0.1, :Kpli => 15.0, :Kpad => 10.0, :BP => 0.55])
-	#prob2 = remake(prob, p = [:ka => 1.0, :VmaxH => 10.0])
-	sol2 = solve(prob2, Tsit5(), saveat = dat.time)
-	scatter(dat.time, dat.conc)
-	plot!(sol2, idxs = :CP)
-end
-
-# ╔═╡ e03f2738-e7f0-402c-b7fc-8689dbc79b9b
-dat.conc
-
-# ╔═╡ 71b3c99f-0ac7-438b-b977-ccd781a8eada
-sol_init[:CP]
-
 # ╔═╡ 6b4a2a16-6856-417a-9a91-e00f71c62b91
 md"### Create loss function"
 
@@ -238,71 +220,29 @@ function loss(x, p, pred=false)
     # extract info
     odeprob, dat = p  # ODEProblem stored as parameters to avoid using global variables
     # remake the problem, passing in our new parameter object
-	#newprob = remake(odeprob; u0 = Dict(), p = [:ka => x[1], :Kpmu => x[2], :Kpli => x[3], :BP => x[4]])
     newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu, :Kpli => x.Kpli, :Kpad => x.Kpad, :BP => x.BP]))
-	#newprob = remake(odeprob; p = Dict([:ka => x.ka, :Kpmu => x.Kpmu]))
     sol = solve(newprob, Tsit5(), saveat = dat.time);
-	#sol = solve(newprob, AutoTsit5(Rosenbrock23()), saveat = dat.time);
     if pred; return sol; end
-	if length(dat.conc) != length(sol[:CP])
-		return Inf
-	else
-		return sum(abs2, dat.conc .- sol[:CP])
-    	#return sum(abs2, log.(dat.conc) .- log.(sol[:CP]))
-	end
+	return sum(abs2, dat.conc .- sol[:CP])
 end
 
 # ╔═╡ 8f473f67-ff48-44cb-a948-84f1c2315588
 # define initial param values
-#θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu])
 θ = ComponentArray(ka = prob.ps[:ka], Kpmu = prob.ps[:Kpmu], Kpli = prob.ps[:Kpli], Kpad = prob.ps[:Kpad], BP = prob.ps[:BP])
-
-# ╔═╡ ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
-sol_init[:CP]
-
-# ╔═╡ 9a5c2244-e2d8-430c-a3c9-394d26194bf7
-dat
-
-# ╔═╡ 1c85ba47-2baa-4c8d-b3f2-59cf56483464
-dat2 = DataFrame(time = sol_init.t, conc = sol_init[:CP])
 
 # ╔═╡ 8831e5b7-5359-4f29-9095-36808fa19c35
 # define constant parameters
-p_const = (prob, dat[2:end,:]);
-
-# ╔═╡ beff6baa-0149-4f9e-8519-589279621f0d
-begin
-	# define callback to track losses
-	losses = Float64[]
-	
-	callback = function (p, l)
-	  push!(losses, l)
-	  if length(losses)%50==0
-	      println("Current loss after $(length(losses)) iterations: $(losses[end])")
-	  end
-	  return false
-	end
-end
-
-# ╔═╡ 58bba3ca-6e38-4e89-ba65-840fe23efec0
-θ.ka
-
-# ╔═╡ 03d6ed14-6152-4ab9-8076-ae1daef740ae
-prob.ps[:VmaxH]
+p_const = (prob, dat);
 
 # ╔═╡ b23f7e84-eb0c-40a6-893a-dc040e13d357
 md"### Optimize"
 
 # ╔═╡ e28f9182-a414-44ac-9c76-6c855bae1f6c
-# ╠═╡ show_logs = false
 begin
 	# define optimization function and problem then optimize 
-	#optfn = OptimizationFunction(loss)
 	optfn = OptimizationFunction(loss, Optimization.AutoForwardDiff())
-	#optprob = OptimizationProblem(optfn, θ, p_const)
 	optprob = OptimizationProblem(optfn, θ, p_const, lb = [0.1,0.01,0.1,0.1,0.5], ub = [5.0,20.0,20.0,30.0,2.0])
 	p_optim = solve(optprob, Optim.NelderMead())
-	#p_optim = solve(optprob, Optim.LBFGS())
 end
 
 # ╔═╡ ebd2719a-f5fc-4ba0-849d-cee4421e8b37
@@ -354,19 +294,10 @@ end
 # ╟─b4891fca-ccf1-40f8-b437-f9b8fab4c1f5
 # ╠═943810c3-7f3a-4502-9970-199f1e40578c
 # ╠═a675ead7-4d59-406d-a37f-66dda9d0ee13
-# ╠═81b539c1-4478-4ccb-a88a-c15d44e32584
-# ╠═e03f2738-e7f0-402c-b7fc-8689dbc79b9b
-# ╠═71b3c99f-0ac7-438b-b977-ccd781a8eada
 # ╟─6b4a2a16-6856-417a-9a91-e00f71c62b91
 # ╠═651760f9-9faa-47a4-a5b9-8b3860390c36
 # ╠═8f473f67-ff48-44cb-a948-84f1c2315588
-# ╠═ea886a8c-e1f8-4cb7-a1c8-1d767ba250d8
-# ╠═9a5c2244-e2d8-430c-a3c9-394d26194bf7
-# ╠═1c85ba47-2baa-4c8d-b3f2-59cf56483464
 # ╠═8831e5b7-5359-4f29-9095-36808fa19c35
-# ╠═beff6baa-0149-4f9e-8519-589279621f0d
-# ╠═58bba3ca-6e38-4e89-ba65-840fe23efec0
-# ╠═03d6ed14-6152-4ab9-8076-ae1daef740ae
 # ╟─b23f7e84-eb0c-40a6-893a-dc040e13d357
 # ╠═e28f9182-a414-44ac-9c76-6c855bae1f6c
 # ╠═ebd2719a-f5fc-4ba0-849d-cee4421e8b37
