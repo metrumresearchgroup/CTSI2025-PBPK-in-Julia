@@ -291,6 +291,7 @@ end
 prob.ps[:VmaxH]
 
 # ╔═╡ e28f9182-a414-44ac-9c76-6c855bae1f6c
+# ╠═╡ show_logs = false
 begin
 	# define optimization function and problem then optimize 
 	#optfn = OptimizationFunction(loss)
