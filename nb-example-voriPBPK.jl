@@ -205,6 +205,25 @@ md"### Plot"
 # ╔═╡ 8c5cbd36-ba16-44c4-a9bd-27927301765b
 plot(sol, idxs = :CP)
 
+# ╔═╡ eb777312-2d68-4e65-adb0-f300de86c4bc
+md"### Callback"
+
+# ╔═╡ 1ce648ce-687b-4184-a085-575c9ab9819c
+begin
+	idx_gutlumen = ModelingToolkit.variable_index(pbpk, :GUTLUMEN)
+	affect!(integrator) = integrator.u[idx_gutlumen] += 200.0
+	cb = PresetTimeCallback([24.0, 48.0], affect!)
+end
+
+# ╔═╡ 8775324d-630e-4072-b7c8-827f549f85ba
+begin
+	prob_cb = remake(prob, tspan=(0.0,72.0))
+	sol_cb = solve(prob_cb, callback=cb)
+end
+
+# ╔═╡ 27612dcf-9a25-4b28-8972-03452446243d
+plot(sol_cb, idxs = :CP)
+
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
 md"## Sensitivity analysis"
 
@@ -364,6 +383,10 @@ plot(ensemble_sol, idxs = :CP)
 # ╠═858cda2e-7fde-4120-a60f-d104e429b5e8
 # ╟─724cf6ca-910e-4d25-90ed-4efa91303fe1
 # ╠═8c5cbd36-ba16-44c4-a9bd-27927301765b
+# ╟─eb777312-2d68-4e65-adb0-f300de86c4bc
+# ╠═1ce648ce-687b-4184-a085-575c9ab9819c
+# ╠═8775324d-630e-4072-b7c8-827f549f85ba
+# ╠═27612dcf-9a25-4b28-8972-03452446243d
 # ╟─e248433b-71b1-4d1b-ab43-d5a26b354605
 # ╟─4f47375b-2a82-473f-9d51-fdcc9ce6001d
 # ╠═94ae5e79-922d-42b5-8c72-1f18951943b8
