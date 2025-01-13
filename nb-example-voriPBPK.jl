@@ -12,7 +12,7 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 25751995-8656-4346-8dca-2df4c342b095
-using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, Optimization, OptimizationOptimJL
+using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, SciMLSensitivity, Optimization, OptimizationOptimJL
 
 # ╔═╡ 1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
 TableOfContents()
@@ -187,8 +187,46 @@ md"### Solve"
 # ╔═╡ 858cda2e-7fde-4120-a60f-d104e429b5e8
 sol = solve(prob, Tsit5())
 
+# ╔═╡ 724cf6ca-910e-4d25-90ed-4efa91303fe1
+md"### Plot"
+
 # ╔═╡ 8c5cbd36-ba16-44c4-a9bd-27927301765b
 plot(sol, idxs = :CP)
+
+# ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
+md"## Sensitivity analysis"
+
+# ╔═╡ 4f47375b-2a82-473f-9d51-fdcc9ce6001d
+md"### Create sensitivity array"
+
+# ╔═╡ 94ae5e79-922d-42b5-8c72-1f18951943b8
+Kpmus = [0.5, 1.0, 2.0]
+
+# ╔═╡ f17bdcb0-1760-46aa-869f-3cec4645a0e9
+md"### Create sensitivity function"
+
+# ╔═╡ 57cf30a9-fbfb-4699-9c17-731e8c041e2f
+function prob_func(prob, i, repeat)
+	remake(prob; p = [:Kpmu => Kpmus[i]])
+end
+
+# ╔═╡ 81712798-1a15-4227-83ef-4e953c995a26
+md"### Create sensitivity problem"
+
+# ╔═╡ 12a7e19a-276d-4794-a7e9-57bd009a0f08
+sens_prob = EnsembleProblem(prob, prob_func = prob_func)
+
+# ╔═╡ a5c7a1c8-8a98-429b-bab8-52a62693f23d
+md"### Solve sensitivity problem"
+
+# ╔═╡ 0b531cc5-399e-47e3-b593-47ba1c09101b
+sens_sol = solve(sens_prob, Tsit5(), trajectories = length(Kpmus))
+
+# ╔═╡ 0589ac9d-3ff6-44e0-971b-2886a8d03561
+md"### Plot"
+
+# ╔═╡ 20eddb8c-4859-411e-ab25-94cb7ea61595
+plot(sens_sol, idxs = :CP)
 
 # ╔═╡ 8039ca65-bb01-4428-b3c5-6de0c866912c
 md"## Optimization"
@@ -245,14 +283,11 @@ begin
 	p_optim = solve(optprob, Optim.NelderMead())
 end
 
-# ╔═╡ ebd2719a-f5fc-4ba0-849d-cee4421e8b37
-p_optim.retcode
+# ╔═╡ 04613926-87de-4db2-8de2-26c24e51a0ae
+println(p_optim)
 
 # ╔═╡ d0ffcaa0-0569-4457-8eb0-aa3e829b42b9
 println(θ)
-
-# ╔═╡ c26dc0d1-e27d-4b21-8881-f87e99b79e08
-println(p_optim.u)
 
 # ╔═╡ 7e417e58-455f-4a22-b196-a9b82c1484ee
 md"### Validate"
@@ -287,7 +322,19 @@ end
 # ╠═93e5fd52-20aa-48dd-8cbc-d8c5f934f70b
 # ╟─e9d019eb-1244-47ca-b1d7-74dae4db3975
 # ╠═858cda2e-7fde-4120-a60f-d104e429b5e8
+# ╟─724cf6ca-910e-4d25-90ed-4efa91303fe1
 # ╠═8c5cbd36-ba16-44c4-a9bd-27927301765b
+# ╟─e248433b-71b1-4d1b-ab43-d5a26b354605
+# ╠═4f47375b-2a82-473f-9d51-fdcc9ce6001d
+# ╠═94ae5e79-922d-42b5-8c72-1f18951943b8
+# ╟─f17bdcb0-1760-46aa-869f-3cec4645a0e9
+# ╠═57cf30a9-fbfb-4699-9c17-731e8c041e2f
+# ╟─81712798-1a15-4227-83ef-4e953c995a26
+# ╠═12a7e19a-276d-4794-a7e9-57bd009a0f08
+# ╟─a5c7a1c8-8a98-429b-bab8-52a62693f23d
+# ╠═0b531cc5-399e-47e3-b593-47ba1c09101b
+# ╟─0589ac9d-3ff6-44e0-971b-2886a8d03561
+# ╠═20eddb8c-4859-411e-ab25-94cb7ea61595
 # ╟─8039ca65-bb01-4428-b3c5-6de0c866912c
 # ╟─aa86aafd-e409-4180-a51b-15b74aae8ffd
 # ╠═8aa63f09-d953-4459-a50a-3a2665722b7c
@@ -300,9 +347,8 @@ end
 # ╠═8831e5b7-5359-4f29-9095-36808fa19c35
 # ╟─b23f7e84-eb0c-40a6-893a-dc040e13d357
 # ╠═e28f9182-a414-44ac-9c76-6c855bae1f6c
-# ╠═ebd2719a-f5fc-4ba0-849d-cee4421e8b37
+# ╠═04613926-87de-4db2-8de2-26c24e51a0ae
 # ╠═d0ffcaa0-0569-4457-8eb0-aa3e829b42b9
-# ╠═c26dc0d1-e27d-4b21-8881-f87e99b79e08
 # ╟─7e417e58-455f-4a22-b196-a9b82c1484ee
 # ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
 # ╠═584f8a03-231f-47a3-bab6-1391e412b448
