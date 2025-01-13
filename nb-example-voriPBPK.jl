@@ -321,7 +321,7 @@ end
 md"## Population simulation"
 
 # ╔═╡ 17017374-d8d2-4241-a8c6-f2c9929c8766
-prob_optim = remake(prob, p = [:ka => p_optim.u.ka, :Kpmu => p_optim.u.Kpmu, :Kpli => p_optim.u.Kpli, :BP => p_optim.u.BP])
+prob_optim = remake(prob; p = [:ka => p_optim.u.ka, :Kpmu => p_optim.u.Kpmu, :Kpli => p_optim.u.Kpli, :BP => p_optim.u.BP])
 
 # ╔═╡ 37ddc844-862e-425e-a4f0-05c254a7e049
 md"### Create ensemble problem and solve"
