@@ -317,21 +317,28 @@ begin
 	plot!(pred_after, idxs = :CP, label = "optimized")
 end
 
+# ╔═╡ eb4018c1-7cbc-46bb-a2ee-ecae1baaa735
+md"## Population simulation"
+
 # ╔═╡ 17017374-d8d2-4241-a8c6-f2c9929c8766
 prob_optim = remake(prob, p = [:ka => p_optim.u.ka, :Kpmu => p_optim.u.Kpmu, :Kpli => p_optim.u.Kpli, :BP => p_optim.u.BP])
 
-# ╔═╡ 28349677-f95e-4ec2-aba9-23c1f6342e0d
+# ╔═╡ 37ddc844-862e-425e-a4f0-05c254a7e049
+md"### Create ensemble problem and solve"
+
+# ╔═╡ b588899e-cb65-4946-a13a-aef3f69246a9
 begin
-	## create simulation function
+## create simulation function
 	Random.seed!(123)  # set seed for reproducibility
 	function prob_func(prob, i, repeat)
 	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
 	end
-
-	## create an ensemble problem and solve
 	ensemble_prob = EnsembleProblem(prob_optim, prob_func = prob_func)
 	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
 end
+
+# ╔═╡ ecf5a6de-6f1d-4012-8d44-e70893ee59e1
+md"### Plot"
 
 # ╔═╡ 8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
 plot(ensemble_sol, idxs = :CP)
@@ -386,6 +393,9 @@ plot(ensemble_sol, idxs = :CP)
 # ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
 # ╠═584f8a03-231f-47a3-bab6-1391e412b448
 # ╠═ec600ce9-68c3-4c84-98bc-447a943a7ac2
+# ╟─eb4018c1-7cbc-46bb-a2ee-ecae1baaa735
 # ╠═17017374-d8d2-4241-a8c6-f2c9929c8766
-# ╠═28349677-f95e-4ec2-aba9-23c1f6342e0d
+# ╟─37ddc844-862e-425e-a4f0-05c254a7e049
+# ╠═b588899e-cb65-4946-a13a-aef3f69246a9
+# ╟─ecf5a6de-6f1d-4012-8d44-e70893ee59e1
 # ╠═8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
