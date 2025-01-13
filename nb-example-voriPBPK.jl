@@ -234,7 +234,7 @@ begin
 	function prob_func(prob, i, repeat)
 	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
 	end
-	ensemble_prob = EnsembleProblem(prob_optim, prob_func = prob_func)
+	ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
 	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
 end
 
