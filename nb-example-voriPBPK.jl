@@ -38,6 +38,9 @@ md"## Libraries"
 # ╔═╡ e8c04c18-9ed6-4e06-a7a9-362b6bb55de2
 md"## Model development"
 
+# ╔═╡ 8130c483-9d2c-4425-8cd5-3dd89b93a5be
+md"### Create model function"
+
 # ╔═╡ 57966d02-b00e-4e65-b46d-43d9d343123d
 PBPK = function(; name)
 	@independent_variables t, [description = "time"]
@@ -168,6 +171,9 @@ PBPK = function(; name)
 
 	ODESystem(eqs, t, vars, pars; name=name, observed=observed)
 end
+
+# ╔═╡ 5dbddf5c-a5a4-4453-be09-d6ddd01cb385
+md"### Build model"
 
 # ╔═╡ 106b1b40-4458-453d-b5bd-931969c9471b
 @mtkbuild pbpk = PBPK()
@@ -315,7 +321,9 @@ end
 # ╠═8b19cc51-8ddf-4f4d-8e85-06953641d9f7
 # ╠═25751995-8656-4346-8dca-2df4c342b095
 # ╟─e8c04c18-9ed6-4e06-a7a9-362b6bb55de2
+# ╟─8130c483-9d2c-4425-8cd5-3dd89b93a5be
 # ╠═57966d02-b00e-4e65-b46d-43d9d343123d
+# ╟─5dbddf5c-a5a4-4453-be09-d6ddd01cb385
 # ╠═106b1b40-4458-453d-b5bd-931969c9471b
 # ╟─d63b718e-1847-4c92-90c7-6b507293582f
 # ╟─7c4f551f-2667-4e6b-955a-568a993261a8
