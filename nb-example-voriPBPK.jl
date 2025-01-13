@@ -212,17 +212,34 @@ md"### Callback"
 begin
 	idx_gutlumen = ModelingToolkit.variable_index(pbpk, :GUTLUMEN)
 	affect!(integrator) = integrator.u[idx_gutlumen] += 200.0
-	cb = PresetTimeCallback([24.0, 48.0], affect!)
+	cb = PresetTimeCallback(collect(0.0:12.0:13*12.0), affect!)
 end
 
 # ╔═╡ 8775324d-630e-4072-b7c8-827f549f85ba
 begin
-	prob_cb = remake(prob, tspan=(0.0,72.0))
+	prob_cb = remake(prob, tspan=(0.0,7*24.0))
 	sol_cb = solve(prob_cb, callback=cb)
 end
 
 # ╔═╡ 27612dcf-9a25-4b28-8972-03452446243d
 plot(sol_cb, idxs = :CP)
+
+# ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
+md"### Simulate population"
+
+# ╔═╡ b02de510-6dd0-4c8e-9aef-37fca72b488a
+begin
+## create simulation function
+	Random.seed!(123)  # set seed for reproducibility
+	function prob_func(prob, i, repeat)
+	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
+	end
+	ensemble_prob = EnsembleProblem(prob_optim, prob_func = prob_func)
+	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
+end
+
+# ╔═╡ 3a3f279b-5935-4171-a638-828ed39d69ac
+plot(ensemble_sol, idxs = :CP)
 
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
 md"## Sensitivity analysis"
@@ -336,32 +353,6 @@ begin
 	plot!(pred_after, idxs = :CP, label = "optimized")
 end
 
-# ╔═╡ eb4018c1-7cbc-46bb-a2ee-ecae1baaa735
-md"## Population simulation"
-
-# ╔═╡ 17017374-d8d2-4241-a8c6-f2c9929c8766
-prob_optim = remake(prob; p = [:ka => p_optim.u.ka, :Kpmu => p_optim.u.Kpmu, :Kpli => p_optim.u.Kpli, :BP => p_optim.u.BP])
-
-# ╔═╡ 37ddc844-862e-425e-a4f0-05c254a7e049
-md"### Create ensemble problem and solve"
-
-# ╔═╡ b588899e-cb65-4946-a13a-aef3f69246a9
-begin
-## create simulation function
-	Random.seed!(123)  # set seed for reproducibility
-	function prob_func(prob, i, repeat)
-	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
-	end
-	ensemble_prob = EnsembleProblem(prob_optim, prob_func = prob_func)
-	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
-end
-
-# ╔═╡ ecf5a6de-6f1d-4012-8d44-e70893ee59e1
-md"### Plot"
-
-# ╔═╡ 8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
-plot(ensemble_sol, idxs = :CP)
-
 # ╔═╡ Cell order:
 # ╟─d242c44a-ce2e-11ef-3c3a-b366eaada965
 # ╟─1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
@@ -387,6 +378,9 @@ plot(ensemble_sol, idxs = :CP)
 # ╠═1ce648ce-687b-4184-a085-575c9ab9819c
 # ╠═8775324d-630e-4072-b7c8-827f549f85ba
 # ╠═27612dcf-9a25-4b28-8972-03452446243d
+# ╟─d5d9de24-dcba-4bc6-b33b-76bf13d6395d
+# ╠═b02de510-6dd0-4c8e-9aef-37fca72b488a
+# ╠═3a3f279b-5935-4171-a638-828ed39d69ac
 # ╟─e248433b-71b1-4d1b-ab43-d5a26b354605
 # ╟─4f47375b-2a82-473f-9d51-fdcc9ce6001d
 # ╠═94ae5e79-922d-42b5-8c72-1f18951943b8
@@ -416,9 +410,3 @@ plot(ensemble_sol, idxs = :CP)
 # ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
 # ╠═584f8a03-231f-47a3-bab6-1391e412b448
 # ╠═ec600ce9-68c3-4c84-98bc-447a943a7ac2
-# ╟─eb4018c1-7cbc-46bb-a2ee-ecae1baaa735
-# ╠═17017374-d8d2-4241-a8c6-f2c9929c8766
-# ╟─37ddc844-862e-425e-a4f0-05c254a7e049
-# ╠═b588899e-cb65-4946-a13a-aef3f69246a9
-# ╟─ecf5a6de-6f1d-4012-8d44-e70893ee59e1
-# ╠═8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
