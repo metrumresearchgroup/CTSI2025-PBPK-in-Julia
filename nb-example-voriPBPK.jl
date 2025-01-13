@@ -12,7 +12,13 @@ using Pkg; Pkg.activate(".");
 using PlutoUI
 
 # ╔═╡ 25751995-8656-4346-8dca-2df4c342b095
-using DifferentialEquations, ModelingToolkit, Unitful, Plots, CSV, Tidier, ComponentArrays, SciMLSensitivity, Optimization, OptimizationOptimJL
+begin
+	using DifferentialEquations, ModelingToolkit, Unitful
+	using Plots 
+	using CSV, Tidier
+	using ComponentArrays, Optimization, OptimizationOptimJL
+	using Random, Distributions
+end
 
 # ╔═╡ 1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
 TableOfContents()
@@ -212,7 +218,7 @@ Kpmus = [0.5, 1.0, 2.0]
 md"### Create sensitivity function"
 
 # ╔═╡ 57cf30a9-fbfb-4699-9c17-731e8c041e2f
-function prob_func(prob, i, repeat)
+function prob_func_sens(prob, i, repeat)
 	remake(prob; p = [:Kpmu => Kpmus[i]])
 end
 
@@ -220,7 +226,7 @@ end
 md"### Create sensitivity problem"
 
 # ╔═╡ 12a7e19a-276d-4794-a7e9-57bd009a0f08
-sens_prob = EnsembleProblem(prob, prob_func = prob_func)
+sens_prob = EnsembleProblem(prob, prob_func = prob_func_sens)
 
 # ╔═╡ a5c7a1c8-8a98-429b-bab8-52a62693f23d
 md"### Solve sensitivity problem"
@@ -311,6 +317,25 @@ begin
 	plot!(pred_after, idxs = :CP, label = "optimized")
 end
 
+# ╔═╡ 17017374-d8d2-4241-a8c6-f2c9929c8766
+prob_optim = remake(prob, p = [:ka => p_optim.u.ka, :Kpmu => p_optim.u.Kpmu, :Kpli => p_optim.u.Kpli, :BP => p_optim.u.BP])
+
+# ╔═╡ 28349677-f95e-4ec2-aba9-23c1f6342e0d
+begin
+	## create simulation function
+	Random.seed!(123)  # set seed for reproducibility
+	function prob_func(prob, i, repeat)
+	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
+	end
+
+	## create an ensemble problem and solve
+	ensemble_prob = EnsembleProblem(prob_optim, prob_func = prob_func)
+	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
+end
+
+# ╔═╡ 8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
+plot(ensemble_sol, idxs = :CP)
+
 # ╔═╡ Cell order:
 # ╟─d242c44a-ce2e-11ef-3c3a-b366eaada965
 # ╟─1f85fbdc-7a64-4def-8e8f-2aafec12bdbb
@@ -333,7 +358,7 @@ end
 # ╟─724cf6ca-910e-4d25-90ed-4efa91303fe1
 # ╠═8c5cbd36-ba16-44c4-a9bd-27927301765b
 # ╟─e248433b-71b1-4d1b-ab43-d5a26b354605
-# ╠═4f47375b-2a82-473f-9d51-fdcc9ce6001d
+# ╟─4f47375b-2a82-473f-9d51-fdcc9ce6001d
 # ╠═94ae5e79-922d-42b5-8c72-1f18951943b8
 # ╟─f17bdcb0-1760-46aa-869f-3cec4645a0e9
 # ╠═57cf30a9-fbfb-4699-9c17-731e8c041e2f
@@ -361,3 +386,6 @@ end
 # ╠═7764c9e9-b66b-4679-8512-40d7de180c8a
 # ╠═584f8a03-231f-47a3-bab6-1391e412b448
 # ╠═ec600ce9-68c3-4c84-98bc-447a943a7ac2
+# ╠═17017374-d8d2-4241-a8c6-f2c9929c8766
+# ╠═28349677-f95e-4ec2-aba9-23c1f6342e0d
+# ╠═8942b9d4-4dbd-4631-a0ee-285b0b4e7b7f
