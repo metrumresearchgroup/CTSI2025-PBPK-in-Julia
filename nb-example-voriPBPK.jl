@@ -224,6 +224,18 @@ end
 # ╔═╡ 27612dcf-9a25-4b28-8972-03452446243d
 plot(sol_cb, idxs = :CP)
 
+# ╔═╡ c820a6ef-1077-4eae-b1b2-1a37234e3046
+md"### Update parameter"
+
+# ╔═╡ cc1ea82e-9821-4be3-9d86-de4ce2dcef7c
+prob.ps[:VmaxH]
+
+# ╔═╡ 53283fe1-61e8-4d13-ac54-74a55784fda3
+begin
+	prob_up = remake(prob, p = [:VmaxH => 20.0]);
+	prob_up.ps[:VmaxH]
+end
+
 # ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
 md"### Simulate population"
 
@@ -240,6 +252,21 @@ end
 
 # ╔═╡ 3a3f279b-5935-4171-a638-828ed39d69ac
 plot(ensemble_sol, idxs = :CP)
+
+# ╔═╡ bec6081e-97fc-44c6-a598-781884dfdcd6
+md"#### Parallelization"
+
+# ╔═╡ c016d693-f8aa-4ce8-8ac1-8b2c04f41513
+md"##### Serial"
+
+# ╔═╡ 2b6b50bf-4770-48c7-8da6-57a28dcb303b
+@time ensemble_sol_serial = solve(ensemble_prob, Tsit5(), EnsembleSerial(), trajectories = 10);
+
+# ╔═╡ a940082d-10a7-4f07-901d-2f2fc6dc4532
+md"##### Parallel"
+
+# ╔═╡ ac528337-c9c2-404a-bac7-0b1b93c3791a
+@time ensemble_sol_parallel = solve(ensemble_prob, Tsit5(), EnsembleThreads(), trajectories = 10);
 
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
 md"## Sensitivity analysis"
@@ -378,9 +405,17 @@ end
 # ╠═1ce648ce-687b-4184-a085-575c9ab9819c
 # ╠═8775324d-630e-4072-b7c8-827f549f85ba
 # ╠═27612dcf-9a25-4b28-8972-03452446243d
+# ╟─c820a6ef-1077-4eae-b1b2-1a37234e3046
+# ╠═cc1ea82e-9821-4be3-9d86-de4ce2dcef7c
+# ╠═53283fe1-61e8-4d13-ac54-74a55784fda3
 # ╟─d5d9de24-dcba-4bc6-b33b-76bf13d6395d
 # ╠═b02de510-6dd0-4c8e-9aef-37fca72b488a
 # ╠═3a3f279b-5935-4171-a638-828ed39d69ac
+# ╟─bec6081e-97fc-44c6-a598-781884dfdcd6
+# ╟─c016d693-f8aa-4ce8-8ac1-8b2c04f41513
+# ╠═2b6b50bf-4770-48c7-8da6-57a28dcb303b
+# ╟─a940082d-10a7-4f07-901d-2f2fc6dc4532
+# ╠═ac528337-c9c2-404a-bac7-0b1b93c3791a
 # ╟─e248433b-71b1-4d1b-ab43-d5a26b354605
 # ╟─4f47375b-2a82-473f-9d51-fdcc9ce6001d
 # ╠═94ae5e79-922d-42b5-8c72-1f18951943b8
