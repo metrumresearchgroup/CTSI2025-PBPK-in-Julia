@@ -236,6 +236,13 @@ begin
 	prob_up.ps[:VmaxH]
 end
 
+# ╔═╡ cf30ba65-c7dc-4dc4-abaa-e114324b39b9
+begin
+	sol_up = solve(prob_up, Tsit5())
+	plot(sol, idxs = :CP, label = "VmaxH = 40.0")
+	plot!(sol_up, idxs = :CP, label = "VmaxH = 20.0")
+end
+
 # ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
 md"### Simulate population"
 
@@ -408,6 +415,7 @@ end
 # ╟─c820a6ef-1077-4eae-b1b2-1a37234e3046
 # ╠═cc1ea82e-9821-4be3-9d86-de4ce2dcef7c
 # ╠═53283fe1-61e8-4d13-ac54-74a55784fda3
+# ╠═cf30ba65-c7dc-4dc4-abaa-e114324b39b9
 # ╟─d5d9de24-dcba-4bc6-b33b-76bf13d6395d
 # ╠═b02de510-6dd0-4c8e-9aef-37fca72b488a
 # ╠═3a3f279b-5935-4171-a638-828ed39d69ac
