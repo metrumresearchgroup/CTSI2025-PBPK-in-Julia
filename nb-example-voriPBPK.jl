@@ -244,7 +244,7 @@ begin
 end
 
 # ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
-md"### Simulate population"
+md"### Simulate a population"
 
 # ╔═╡ b02de510-6dd0-4c8e-9aef-37fca72b488a
 begin
