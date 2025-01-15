@@ -187,14 +187,76 @@ md"## Data structures"
 # ╔═╡ d33ce047-19e3-44c3-ae07-9e608ee8b1a2
 md"### Tuples"
 
+# ╔═╡ e4a9603a-85ed-48b8-961d-6493fb30a826
+## ordered but immutable
+t = (4,5,6)
+
+# ╔═╡ e48afea8-2f61-4cd2-b057-bcb49be949e2
+t[2]
+
 # ╔═╡ b559174e-af8b-4ccb-9027-f37ef4d24361
 md"### Disctionaries"
+
+# ╔═╡ 6e2a213e-43aa-4e81-a576-ac42db527e05
+## unordered but mutable
+d = Dict("a" => 1, "b" => 2, "c" => 3)
+
+# ╔═╡ 61d413d6-cc2b-41f0-986d-a1b6f03f2dea
+d["a"]
+
+# ╔═╡ 791a60ec-f264-42e1-9bbf-9d7b7193885e
+d["a"] = 4
+
+# ╔═╡ a7df3ef8-3f41-4f6b-b320-56346b4f4afd
+d
 
 # ╔═╡ fa9f01ec-85e7-4f29-b5ae-294f3901138a
 md"### Arrays"
 
 # ╔═╡ 86e666a3-6c82-4be5-8e86-459a2005b800
 md"#### Vectors"
+
+# ╔═╡ f88935d9-6c50-4b86-8f66-83f64f441ae0
+## ordered and mutable
+v1 = [1,2,3]
+
+# ╔═╡ 425d32c8-7fb0-4357-b646-4f3cea2ef88c
+v2 = zeros(3)
+
+# ╔═╡ 34ec342b-d81f-4c01-b5c4-c7d5e871d9f4
+v3 = ones(3)
+
+# ╔═╡ 813cbee0-391c-443f-8d24-4e9aa74a59d6
+v4 = rand(3)
+
+# ╔═╡ ad188ef1-c43f-4c8d-a930-7e7453d17c1a
+v5 = rand(1:5, 3)
+
+# ╔═╡ 66630bf4-068e-44ad-9dc6-4dd605de782c
+v6 = [1,2,"hi"]
+
+# ╔═╡ ebaca8c0-cdb4-46b4-8d2a-b5d4d46cf43b
+push!(v6, "ahmed")
+
+# ╔═╡ 1b60d6f2-01eb-4aca-bd20-c44441b60d71
+pop!(v6)
+
+# ╔═╡ 6af0f38e-9e1e-469f-a419-c2c7ece356f1
+v6
+
+# ╔═╡ d5242d23-28fa-4c30-a3ab-e83138430646
+## indexing
+begin
+	v6[1]
+	v6[2:end]
+end
+
+# ╔═╡ 0ac408b4-921a-414f-858b-38cfbf683d57
+# operations
+begin
+	v6 .* v6
+	v6 .== v6
+end
 
 # ╔═╡ ae43b9ae-2544-496a-a770-207291330a7c
 md"#### Matrices"
@@ -567,9 +629,26 @@ version = "17.4.0+2"
 # ╠═46da2ed2-61be-42e3-8893-d8e0d8f63ea3
 # ╟─098dfe77-902a-4dc9-b646-d60a275eefe9
 # ╟─d33ce047-19e3-44c3-ae07-9e608ee8b1a2
+# ╠═e4a9603a-85ed-48b8-961d-6493fb30a826
+# ╠═e48afea8-2f61-4cd2-b057-bcb49be949e2
 # ╟─b559174e-af8b-4ccb-9027-f37ef4d24361
+# ╠═6e2a213e-43aa-4e81-a576-ac42db527e05
+# ╠═61d413d6-cc2b-41f0-986d-a1b6f03f2dea
+# ╠═791a60ec-f264-42e1-9bbf-9d7b7193885e
+# ╠═a7df3ef8-3f41-4f6b-b320-56346b4f4afd
 # ╟─fa9f01ec-85e7-4f29-b5ae-294f3901138a
 # ╟─86e666a3-6c82-4be5-8e86-459a2005b800
+# ╠═f88935d9-6c50-4b86-8f66-83f64f441ae0
+# ╠═425d32c8-7fb0-4357-b646-4f3cea2ef88c
+# ╠═34ec342b-d81f-4c01-b5c4-c7d5e871d9f4
+# ╠═813cbee0-391c-443f-8d24-4e9aa74a59d6
+# ╠═ad188ef1-c43f-4c8d-a930-7e7453d17c1a
+# ╠═66630bf4-068e-44ad-9dc6-4dd605de782c
+# ╠═ebaca8c0-cdb4-46b4-8d2a-b5d4d46cf43b
+# ╠═1b60d6f2-01eb-4aca-bd20-c44441b60d71
+# ╠═6af0f38e-9e1e-469f-a419-c2c7ece356f1
+# ╠═d5242d23-28fa-4c30-a3ab-e83138430646
+# ╠═0ac408b4-921a-414f-858b-38cfbf683d57
 # ╟─ae43b9ae-2544-496a-a770-207291330a7c
 # ╟─d7c37f0d-13c7-406c-a202-c15cd719571b
 # ╟─d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
