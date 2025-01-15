@@ -123,24 +123,27 @@ md"## Logical operators"
 # ╔═╡ 0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
 md"## Variables and types"
 
-# ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
-x = 2
-
-# ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
-typeof(x)
-
 # ╔═╡ 36bb5baa-4a99-41c2-a98e-17fbeeb2f351
+# ╠═╡ disabled = true
+#=╠═╡
 xx = 2.0
+  ╠═╡ =#
 
 # ╔═╡ 32ec9234-0ab0-49ee-bf5b-5c2a30505d37
+#=╠═╡
 typeof(xx)
+  ╠═╡ =#
 
 # ╔═╡ 544c350d-f69d-407d-8343-d98941c27076
+#=╠═╡
 # convert type
 xxx = convert(Int, xx)
+  ╠═╡ =#
 
 # ╔═╡ 1085b786-e45d-4269-b2ce-fc6b8d35a23d
+#=╠═╡
 typeof(xxx)
+  ╠═╡ =#
 
 # ╔═╡ bf837599-09c9-4ad0-9976-345df752d6cc
 # use unicode
@@ -306,11 +309,51 @@ md"## Loops"
 # ╔═╡ 4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
 md"### While"
 
+# ╔═╡ f6983783-f2b7-460c-8663-852702ed971e
+begin
+	n = 0
+	while n < 10
+	    n = n + 1
+	    println(n)
+	end
+end
+
 # ╔═╡ d7282fac-6185-49ac-a265-f79a705e4269
 md"### For"
 
+# ╔═╡ b9cb55fb-2aa0-4ac4-a7b8-ac222bafd977
+for i in 1:10
+    println(i)
+end
+
+# ╔═╡ 21af2e06-2472-43c2-9046-5782437f682c
+for i in 10:20; println(i); end
+
+# ╔═╡ 7856dd0c-f8f9-471c-a68b-8b06382ea134
+# array comprehension
+[i for i in 1:10]
+
 # ╔═╡ 9b988296-794c-47a8-8f2d-6c6acf12fa9b
 md"## Conditionals"
+
+# ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
+typeof(x)
+
+# ╔═╡ 55a0c2bd-9cd0-4db0-8834-5db278874ccc
+if x < 5
+    println("x is less than 5")
+elseif x >= 5 && x < 10
+    println("x is larger than or equal 5 and less than 10")
+else
+    println("x is larger than or equal 5")
+end
+
+# ╔═╡ 3192d937-2fcb-4fa6-ab6b-6c3d5bf7ff51
+if x < 5; println("x is less than 5"); else; println("x is larger than or equal 5"); end
+
+# ╔═╡ 6a92e44e-fce2-4fdf-9253-0b4457a4e2f1
+# ternary operator
+x < 5 ? println("x is less than 5") : println("x is larger than 5")
 
 # ╔═╡ 6f0109c1-def8-4ad2-8590-5ead4f963296
 md"## Functions"
@@ -323,6 +366,22 @@ md"# Metaprogramming"
 
 # ╔═╡ 2c643d24-09f8-4023-8b87-bd148f71c865
 md"# Plotting"
+
+# ╔═╡ d6da0073-f47d-4df8-9096-7a6ddbbf5597
+begin
+	x = 3.0
+	if x < 5
+	    println("x is less than 5")
+	else
+	    println("x is larger than or equal 5")
+	end
+end
+
+# ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
+# ╠═╡ disabled = true
+#=╠═╡
+x = 2
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -699,8 +758,16 @@ version = "17.4.0+2"
 # ╠═59cbabde-6a87-4d64-9c37-12f9b5063e9e
 # ╟─d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
 # ╟─4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
+# ╠═f6983783-f2b7-460c-8663-852702ed971e
 # ╟─d7282fac-6185-49ac-a265-f79a705e4269
+# ╠═b9cb55fb-2aa0-4ac4-a7b8-ac222bafd977
+# ╠═21af2e06-2472-43c2-9046-5782437f682c
+# ╠═7856dd0c-f8f9-471c-a68b-8b06382ea134
 # ╟─9b988296-794c-47a8-8f2d-6c6acf12fa9b
+# ╠═d6da0073-f47d-4df8-9096-7a6ddbbf5597
+# ╠═55a0c2bd-9cd0-4db0-8834-5db278874ccc
+# ╠═3192d937-2fcb-4fa6-ab6b-6c3d5bf7ff51
+# ╠═6a92e44e-fce2-4fdf-9253-0b4457a4e2f1
 # ╟─6f0109c1-def8-4ad2-8590-5ead4f963296
 # ╟─1b695a57-76ca-4071-9066-81fc93dc8802
 # ╟─ac7ddc10-86b4-4860-a678-0fa687bb1364
