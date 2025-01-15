@@ -244,6 +244,9 @@ pop!(v6)
 # ╔═╡ 6af0f38e-9e1e-469f-a419-c2c7ece356f1
 v6
 
+# ╔═╡ c2a53d7a-3218-45f4-bde3-41d093c2daf0
+insert!(v6, 2, "hello")
+
 # ╔═╡ d5242d23-28fa-4c30-a3ab-e83138430646
 ## indexing
 begin
@@ -260,6 +263,33 @@ end
 
 # ╔═╡ ae43b9ae-2544-496a-a770-207291330a7c
 md"#### Matrices"
+
+# ╔═╡ e8a77998-d7e1-4d3e-b131-7cb60fca682c
+m1 = [1 2 3; 4 5 6]
+
+# ╔═╡ 71ad625d-9937-4b37-9380-388adee26ee6
+m2 = zeros(2,3)
+
+# ╔═╡ 8e38a338-2943-4254-ba5c-14ce6571e868
+m3 = ones(2,3)
+
+# ╔═╡ 725069ae-b410-4d49-83b9-22a1fd5d0431
+m4 = rand(2,3)
+
+# ╔═╡ 37e2aa41-49b5-4d19-9787-95023ed156f1
+m5 = rand(1:10, 2, 3)
+
+# ╔═╡ 7c8565c4-fea1-4472-bd04-86c6e2d9fd95
+# indexing
+begin
+	m5[2,1]
+	m5[2:end]
+	m5[1,:]
+end
+
+# ╔═╡ 1b487c20-a24c-4a7a-bcd1-7cda58da8bd7
+# operations
+m5 .* m5
 
 # ╔═╡ d7c37f0d-13c7-406c-a202-c15cd719571b
 md"#### Other"
@@ -647,9 +677,17 @@ version = "17.4.0+2"
 # ╠═ebaca8c0-cdb4-46b4-8d2a-b5d4d46cf43b
 # ╠═1b60d6f2-01eb-4aca-bd20-c44441b60d71
 # ╠═6af0f38e-9e1e-469f-a419-c2c7ece356f1
+# ╠═c2a53d7a-3218-45f4-bde3-41d093c2daf0
 # ╠═d5242d23-28fa-4c30-a3ab-e83138430646
 # ╠═0ac408b4-921a-414f-858b-38cfbf683d57
 # ╟─ae43b9ae-2544-496a-a770-207291330a7c
+# ╠═e8a77998-d7e1-4d3e-b131-7cb60fca682c
+# ╠═71ad625d-9937-4b37-9380-388adee26ee6
+# ╠═8e38a338-2943-4254-ba5c-14ce6571e868
+# ╠═725069ae-b410-4d49-83b9-22a1fd5d0431
+# ╠═37e2aa41-49b5-4d19-9787-95023ed156f1
+# ╠═7c8565c4-fea1-4472-bd04-86c6e2d9fd95
+# ╠═1b487c20-a24c-4a7a-bcd1-7cda58da8bd7
 # ╟─d7c37f0d-13c7-406c-a202-c15cd719571b
 # ╟─d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
 # ╟─4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
