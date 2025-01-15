@@ -13,6 +13,17 @@ TableOfContents()
 # ╔═╡ dd5df476-ce4e-11ef-2e20-a90209692b8c
 md"# What is Julia?"
 
+# ╔═╡ 9b0ec46c-568f-4fbb-9393-b984951deadd
+md"
+Julia is a high-level, high-performance programming language designed for technical computing and data science.
+"
+
+# ╔═╡ def58513-b735-4907-8edc-a6e0d915c14a
+LocalResource(
+	"figs/logo.png",
+	:width => 400
+)
+
 # ╔═╡ 4e56ef31-9cf5-457c-ae45-2e1559defcd9
 md"# Why Julia?"
 
@@ -796,9 +807,11 @@ version = "17.4.0+2"
 # ╟─ca4d8177-4680-4b6c-bde7-c209c501c74b
 # ╟─195b30b8-2242-47c8-8006-1cad7c460883
 # ╟─dd5df476-ce4e-11ef-2e20-a90209692b8c
+# ╟─9b0ec46c-568f-4fbb-9393-b984951deadd
+# ╟─def58513-b735-4907-8edc-a6e0d915c14a
 # ╟─4e56ef31-9cf5-457c-ae45-2e1559defcd9
 # ╟─7516bd87-2218-4bf3-af57-c76619e6ac0c
-# ╟─df3687ec-edff-471c-b64e-fac3af177f1a
+# ╠═df3687ec-edff-471c-b64e-fac3af177f1a
 # ╟─f8bb3bee-cb49-43ed-86eb-fd47563b774f
 # ╟─3aae6539-f566-4b30-9807-16d0d6acbdd2
 # ╟─84245768-6b83-4a54-a6c3-d6e735d0e6fb
