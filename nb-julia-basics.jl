@@ -294,6 +294,12 @@ m5 .* m5
 # ╔═╡ d7c37f0d-13c7-406c-a202-c15cd719571b
 md"#### Other"
 
+# ╔═╡ f59d44b1-490d-44ac-bab9-71faf6ec8205
+r1 = rand(4,3,2)
+
+# ╔═╡ 59cbabde-6a87-4d64-9c37-12f9b5063e9e
+r2 = [[1, 2, 3], [4, 5, 6]]
+
 # ╔═╡ d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
 md"## Loops"
 
@@ -689,6 +695,8 @@ version = "17.4.0+2"
 # ╠═7c8565c4-fea1-4472-bd04-86c6e2d9fd95
 # ╠═1b487c20-a24c-4a7a-bcd1-7cda58da8bd7
 # ╟─d7c37f0d-13c7-406c-a202-c15cd719571b
+# ╠═f59d44b1-490d-44ac-bab9-71faf6ec8205
+# ╠═59cbabde-6a87-4d64-9c37-12f9b5063e9e
 # ╟─d23010ed-3ec9-4d95-b9f9-88ac0b62ce9e
 # ╟─4ac9e2a2-3cd9-4535-8b6d-8cdf5cf582aa
 # ╟─d7282fac-6185-49ac-a265-f79a705e4269
