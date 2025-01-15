@@ -358,6 +358,71 @@ x < 5 ? println("x is less than 5") : println("x is larger than 5")
 # ╔═╡ 6f0109c1-def8-4ad2-8590-5ead4f963296
 md"## Functions"
 
+# ╔═╡ a9cbdc07-0008-469e-badd-1c59af561933
+function my_func1(x)
+    return x ^ 2.0
+end
+
+# ╔═╡ 1f32472d-c6ae-495e-8bfb-aa5da957affa
+my_func1(3.0)
+
+# ╔═╡ 93256288-b286-48ea-b814-5487b3e62912
+f(x) = x * 3.0
+
+# ╔═╡ ffeb3074-b1cb-4124-9791-0a91c837fb6e
+f(4.0)
+
+# ╔═╡ 49a8ee59-2304-4f66-b58f-2f6fc00f9cb0
+function my_func2(x,y)
+    return x + y, x - y
+end
+
+# ╔═╡ 78a8ac6c-8375-4177-ab5b-af6a5236d087
+my_func2(4.0,3.0)
+
+# ╔═╡ 4207daa9-eef4-43a5-a88f-f1575ca046f3
+function my_func3(x,y=2.0)
+    my_sum = x + y
+    my_diff = x - y
+    return my_sum, my_diff
+end
+
+# ╔═╡ 8e6152a9-7a18-4558-bb39-854da935f445
+my_func3(3.0)
+
+# ╔═╡ 842b8736-32d8-4c0e-8ab2-341f7ab0f0af
+function my_func4(;x,y)
+    my_sum = x + y
+    my_diff = x - y
+    return my_sum, my_diff
+end
+
+# ╔═╡ 1d8906c4-7474-4a56-b93c-dec957739eb3
+my_func4(; y=3.0, x=2.0)
+
+# ╔═╡ f330eff6-bc63-4d1c-8e0b-233cd3b5e4cc
+# anonymous functions
+x -> x^2
+
+# ╔═╡ 97760475-3f13-4f39-80dd-90d15d9fad0d
+ff = x -> x^2
+
+# ╔═╡ ec8bec19-56c1-44bf-a62c-328c813b0cbf
+map(x -> x^2, [1,2,3])
+
+# ╔═╡ 18a4b2f2-c937-496c-a1fa-77bb4e0f8161
+# multiple dispatch
+begin
+	g(x::String) = "my name is $x"
+	g(x::Int64) = x*3
+end
+
+# ╔═╡ dd165ceb-de0f-4e45-8cd0-6c1ac02ef5ac
+g("ahmed")
+
+# ╔═╡ 2c70a170-6a16-4388-8486-401e43bb57d6
+g(3)
+
 # ╔═╡ 1b695a57-76ca-4071-9066-81fc93dc8802
 md"# Package Management"
 
@@ -769,6 +834,22 @@ version = "17.4.0+2"
 # ╠═3192d937-2fcb-4fa6-ab6b-6c3d5bf7ff51
 # ╠═6a92e44e-fce2-4fdf-9253-0b4457a4e2f1
 # ╟─6f0109c1-def8-4ad2-8590-5ead4f963296
+# ╠═a9cbdc07-0008-469e-badd-1c59af561933
+# ╠═1f32472d-c6ae-495e-8bfb-aa5da957affa
+# ╠═93256288-b286-48ea-b814-5487b3e62912
+# ╠═ffeb3074-b1cb-4124-9791-0a91c837fb6e
+# ╠═49a8ee59-2304-4f66-b58f-2f6fc00f9cb0
+# ╠═78a8ac6c-8375-4177-ab5b-af6a5236d087
+# ╠═4207daa9-eef4-43a5-a88f-f1575ca046f3
+# ╠═8e6152a9-7a18-4558-bb39-854da935f445
+# ╠═842b8736-32d8-4c0e-8ab2-341f7ab0f0af
+# ╠═1d8906c4-7474-4a56-b93c-dec957739eb3
+# ╠═f330eff6-bc63-4d1c-8e0b-233cd3b5e4cc
+# ╠═97760475-3f13-4f39-80dd-90d15d9fad0d
+# ╠═ec8bec19-56c1-44bf-a62c-328c813b0cbf
+# ╠═18a4b2f2-c937-496c-a1fa-77bb4e0f8161
+# ╠═dd165ceb-de0f-4e45-8cd0-6c1ac02ef5ac
+# ╠═2c70a170-6a16-4388-8486-401e43bb57d6
 # ╟─1b695a57-76ca-4071-9066-81fc93dc8802
 # ╟─ac7ddc10-86b4-4860-a678-0fa687bb1364
 # ╟─2c643d24-09f8-4023-8b87-bd148f71c865
