@@ -123,6 +123,12 @@ md"## Logical operators"
 # ╔═╡ 0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
 md"## Variables and types"
 
+# ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
+# ╠═╡ disabled = true
+#=╠═╡
+x = 2
+  ╠═╡ =#
+
 # ╔═╡ 36bb5baa-4a99-41c2-a98e-17fbeeb2f351
 # ╠═╡ disabled = true
 #=╠═╡
@@ -336,6 +342,16 @@ for i in 10:20; println(i); end
 # ╔═╡ 9b988296-794c-47a8-8f2d-6c6acf12fa9b
 md"## Conditionals"
 
+# ╔═╡ d6da0073-f47d-4df8-9096-7a6ddbbf5597
+begin
+	x = 3.0
+	if x < 5
+	    println("x is less than 5")
+	else
+	    println("x is larger than or equal 5")
+	end
+end
+
 # ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
 typeof(x)
 
@@ -423,30 +439,80 @@ g("ahmed")
 # ╔═╡ 2c70a170-6a16-4388-8486-401e43bb57d6
 g(3)
 
+# ╔═╡ e6a2ea78-9f54-4320-9ffa-d8ba9c1af19f
+md"# Modes"
+
+# ╔═╡ 670181f7-d95b-4e1b-8a7a-f748a9370c38
+md"
+Julia has different modes:
+
+- `Julia`: default
+- `Help`: invoked by typing `?` then query. Example: `?sum`
+- `Shell`: invoked by typing `;`
+- `Pkg`: invoked by typing `]` and is for package management
+"
+
 # ╔═╡ 1b695a57-76ca-4071-9066-81fc93dc8802
-md"# Package Management"
+md"## Package Management"
+
+# ╔═╡ 1cdcfcf3-3289-4c7e-825a-36e50fd00a71
+md"
+Packages can be managed through the package mode that can be accessed by typing ] in the REPL or using the `Pkg` package
+
+Things you can do:
+
+1. Activate an environment: 
+
+```
+Pkg.activate(\".\")
+```
+
+Activating an environment will create two files: `Project.toml` and `Manifest.toml`
+
+2. Add a package: 
+
+```
+Pkg.add(\"<pkg-name>\")
+```
+
+3. Remove a package: 
+
+```
+Pkg.rm(\"<pkg-name>\")
+```
+
+
+4. Check status: 
+
+```
+Pkg.status()
+```
+
+5. Update: 
+
+```
+Pkg.update()
+```
+
+Once a package is installed, it can be loaded into the environment to be available for use like:
+
+```
+using <pkg name>
+import <pkg name>
+```
+
+
+To define a function namespace, use a `.` like: 
+```
+<pkg name>.<function name>
+```
+"
 
 # ╔═╡ ac7ddc10-86b4-4860-a678-0fa687bb1364
 md"# Metaprogramming"
 
-# ╔═╡ 2c643d24-09f8-4023-8b87-bd148f71c865
-md"# Plotting"
-
-# ╔═╡ d6da0073-f47d-4df8-9096-7a6ddbbf5597
-begin
-	x = 3.0
-	if x < 5
-	    println("x is less than 5")
-	else
-	    println("x is larger than or equal 5")
-	end
-end
-
-# ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
-# ╠═╡ disabled = true
-#=╠═╡
-x = 2
-  ╠═╡ =#
+# ╔═╡ ace4dd24-c593-4e47-acfa-ef65b3c5eaa3
+@time 2 * 3
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -850,8 +916,11 @@ version = "17.4.0+2"
 # ╠═18a4b2f2-c937-496c-a1fa-77bb4e0f8161
 # ╠═dd165ceb-de0f-4e45-8cd0-6c1ac02ef5ac
 # ╠═2c70a170-6a16-4388-8486-401e43bb57d6
+# ╠═e6a2ea78-9f54-4320-9ffa-d8ba9c1af19f
+# ╟─670181f7-d95b-4e1b-8a7a-f748a9370c38
 # ╟─1b695a57-76ca-4071-9066-81fc93dc8802
+# ╟─1cdcfcf3-3289-4c7e-825a-36e50fd00a71
 # ╟─ac7ddc10-86b4-4860-a678-0fa687bb1364
-# ╟─2c643d24-09f8-4023-8b87-bd148f71c865
+# ╠═ace4dd24-c593-4e47-acfa-ef65b3c5eaa3
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
