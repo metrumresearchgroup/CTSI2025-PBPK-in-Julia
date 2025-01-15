@@ -124,32 +124,23 @@ md"## Logical operators"
 md"## Variables and types"
 
 # ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
-# ╠═╡ disabled = true
-#=╠═╡
-x = 2
-  ╠═╡ =#
+x1 = 2
+
+# ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
+typeof(x1)
 
 # ╔═╡ 36bb5baa-4a99-41c2-a98e-17fbeeb2f351
-# ╠═╡ disabled = true
-#=╠═╡
-xx = 2.0
-  ╠═╡ =#
+x2 = 2.0
 
 # ╔═╡ 32ec9234-0ab0-49ee-bf5b-5c2a30505d37
-#=╠═╡
-typeof(xx)
-  ╠═╡ =#
+typeof(x2)
 
 # ╔═╡ 544c350d-f69d-407d-8343-d98941c27076
-#=╠═╡
 # convert type
-xxx = convert(Int, xx)
-  ╠═╡ =#
+x3 = convert(Int, x2)
 
 # ╔═╡ 1085b786-e45d-4269-b2ce-fc6b8d35a23d
-#=╠═╡
-typeof(xxx)
-  ╠═╡ =#
+typeof(x3)
 
 # ╔═╡ bf837599-09c9-4ad0-9976-345df752d6cc
 # use unicode
@@ -351,9 +342,6 @@ begin
 	    println("x is larger than or equal 5")
 	end
 end
-
-# ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
-typeof(x)
 
 # ╔═╡ 55a0c2bd-9cd0-4db0-8834-5db278874ccc
 if x < 5
