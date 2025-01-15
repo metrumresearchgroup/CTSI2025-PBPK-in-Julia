@@ -38,14 +38,148 @@ md"# Syntax"
 # ╔═╡ 84245768-6b83-4a54-a6c3-d6e735d0e6fb
 md"## Commenting"
 
+# ╔═╡ 1d84bfa1-f9da-446e-8f11-1198725df298
+# This is a comment
+
+# ╔═╡ 92fa5f26-8e77-4a62-accb-074879e236c4
+#=
+this is a multi-line comment
+=#
+
 # ╔═╡ 738a6cea-f68b-4450-8238-4ab8571b82ec
 md"## Arithmetic operations"
+
+# ╔═╡ db217b80-f814-417d-8ab7-0f0749e94750
+# summation
+3 + 2
+
+# ╔═╡ 1fa73171-a500-4f7c-85c2-b4de4fd14c88
+# subtraction
+3 - 2
+
+# ╔═╡ 017ece0a-eea0-4e9f-8d7c-d1d8acf3e358
+# multiplication
+3 * 2
+
+# ╔═╡ 1cc66228-2fec-4127-9df3-55c451f783b4
+# Division
+3 / 2
+
+# ╔═╡ e842ca5b-fe04-4622-93e8-ef6074911c1c
+# exponentiation
+3 ^ 2
+
+# ╔═╡ 5e3c45ba-e50b-4bf7-937c-fe86ed44fb98
+# remainder
+3 % 2
+
+# ╔═╡ eb011598-a820-49ca-9184-1e3fb4508cfe
+# square root
+sqrt(4.0)
+
+# ╔═╡ b11bb123-99f0-4873-ae04-1f7c42b2656a
+# log
+log(3.0)
+
+# ╔═╡ 6ecc2fd9-2726-412d-9f53-b043960bbdf3
+# exponential
+exp(3.0)
 
 # ╔═╡ 6398ec02-35d6-438c-b0e9-6a708ef59e2d
 md"## Logical operators"
 
+# ╔═╡ 32b1bdd1-0693-4f25-9a7e-0a6049617435
+# equal
+2 == 2
+
+# ╔═╡ 267812b4-8506-47f3-aeae-d75d19d6aa50
+# not equal
+2 != 2
+
+# ╔═╡ 974b7833-573e-4263-811a-44309552159e
+# greater than
+3 > 2
+
+# ╔═╡ 804deb4c-f27b-4724-9e8d-7faed48e0a1b
+# greater than or equal
+3 >= 2
+
+# ╔═╡ 661aaeb9-9c8b-4638-9907-a44061f16945
+# less than
+1 < 2
+
+# ╔═╡ 9d79e609-5951-4a70-9618-6ee532ef57a7
+# less than or equal
+1 <= 2
+
+# ╔═╡ 24f28a55-6726-4771-9c92-767dc36bbc9c
+# AND
+1 < 2 && 2 < 3
+
+# ╔═╡ e659f5e3-b111-4dde-bf72-751dbff95f4b
+# OR
+1 < 2 || 2 > 3
+
 # ╔═╡ 0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
 md"## Variables and types"
+
+# ╔═╡ 6c376b74-274d-4096-a4a2-d778798df06a
+x = 2
+
+# ╔═╡ a76e57b3-74d1-42aa-863d-2c4ece6cd909
+typeof(x)
+
+# ╔═╡ 36bb5baa-4a99-41c2-a98e-17fbeeb2f351
+xx = 2.0
+
+# ╔═╡ 32ec9234-0ab0-49ee-bf5b-5c2a30505d37
+typeof(xx)
+
+# ╔═╡ 544c350d-f69d-407d-8343-d98941c27076
+# convert type
+xxx = convert(Int, xx)
+
+# ╔═╡ 1085b786-e45d-4269-b2ce-fc6b8d35a23d
+typeof(xxx)
+
+# ╔═╡ bf837599-09c9-4ad0-9976-345df752d6cc
+# use unicode
+α = 3.0
+
+# ╔═╡ 0ffe61eb-90c5-4b58-b436-5205a6473efe
+🐰 = 1
+
+# ╔═╡ 32c555bc-2961-4f99-8299-2818511938e5
+md"### Strings"
+
+# ╔═╡ aca313af-36e4-43cd-820a-26ea113e032b
+name = "ahmed "
+
+# ╔═╡ fd9fb264-b052-4acf-b2c8-ac48af829e73
+name2 = "elmokadem"
+
+# ╔═╡ 87abf7ac-f745-4a27-8d7b-b47051f7975f
+## concatenate
+string(name, name2)
+
+# ╔═╡ aeaf419a-3cfc-4788-959b-e5b2981bc8c9
+name * name2
+
+# ╔═╡ a30ed6d2-d863-45fb-8131-adeac7d02853
+## interpolate
+println("my name is $name")
+
+# ╔═╡ 6f70466a-e65c-4b9c-85f9-8c0d18d22b2c
+begin
+	age = 20
+	println("I am $age years old")
+end
+
+# ╔═╡ bb3faa9e-23ce-4ac6-b32b-83a1054cbfff
+println("I am $(age^2) years old")
+
+# ╔═╡ 46da2ed2-61be-42e3-8893-d8e0d8f63ea3
+println("I am ", age, " years old")
 
 # ╔═╡ 098dfe77-902a-4dc9-b646-d60a275eefe9
 md"## Data structures"
@@ -392,9 +526,45 @@ version = "17.4.0+2"
 # ╟─f8bb3bee-cb49-43ed-86eb-fd47563b774f
 # ╟─3aae6539-f566-4b30-9807-16d0d6acbdd2
 # ╟─84245768-6b83-4a54-a6c3-d6e735d0e6fb
+# ╠═1d84bfa1-f9da-446e-8f11-1198725df298
+# ╠═92fa5f26-8e77-4a62-accb-074879e236c4
 # ╟─738a6cea-f68b-4450-8238-4ab8571b82ec
+# ╠═db217b80-f814-417d-8ab7-0f0749e94750
+# ╠═1fa73171-a500-4f7c-85c2-b4de4fd14c88
+# ╠═017ece0a-eea0-4e9f-8d7c-d1d8acf3e358
+# ╠═1cc66228-2fec-4127-9df3-55c451f783b4
+# ╠═e842ca5b-fe04-4622-93e8-ef6074911c1c
+# ╠═5e3c45ba-e50b-4bf7-937c-fe86ed44fb98
+# ╠═eb011598-a820-49ca-9184-1e3fb4508cfe
+# ╠═b11bb123-99f0-4873-ae04-1f7c42b2656a
+# ╠═6ecc2fd9-2726-412d-9f53-b043960bbdf3
 # ╟─6398ec02-35d6-438c-b0e9-6a708ef59e2d
+# ╠═32b1bdd1-0693-4f25-9a7e-0a6049617435
+# ╠═267812b4-8506-47f3-aeae-d75d19d6aa50
+# ╠═974b7833-573e-4263-811a-44309552159e
+# ╠═804deb4c-f27b-4724-9e8d-7faed48e0a1b
+# ╠═661aaeb9-9c8b-4638-9907-a44061f16945
+# ╠═9d79e609-5951-4a70-9618-6ee532ef57a7
+# ╠═24f28a55-6726-4771-9c92-767dc36bbc9c
+# ╠═e659f5e3-b111-4dde-bf72-751dbff95f4b
 # ╟─0c777c3f-5e67-4bcf-bf89-885ee4cc6c19
+# ╠═6c376b74-274d-4096-a4a2-d778798df06a
+# ╠═a76e57b3-74d1-42aa-863d-2c4ece6cd909
+# ╠═36bb5baa-4a99-41c2-a98e-17fbeeb2f351
+# ╠═32ec9234-0ab0-49ee-bf5b-5c2a30505d37
+# ╠═544c350d-f69d-407d-8343-d98941c27076
+# ╠═1085b786-e45d-4269-b2ce-fc6b8d35a23d
+# ╠═bf837599-09c9-4ad0-9976-345df752d6cc
+# ╠═0ffe61eb-90c5-4b58-b436-5205a6473efe
+# ╟─32c555bc-2961-4f99-8299-2818511938e5
+# ╠═aca313af-36e4-43cd-820a-26ea113e032b
+# ╠═fd9fb264-b052-4acf-b2c8-ac48af829e73
+# ╠═87abf7ac-f745-4a27-8d7b-b47051f7975f
+# ╠═aeaf419a-3cfc-4788-959b-e5b2981bc8c9
+# ╠═a30ed6d2-d863-45fb-8131-adeac7d02853
+# ╠═6f70466a-e65c-4b9c-85f9-8c0d18d22b2c
+# ╠═bb3faa9e-23ce-4ac6-b32b-83a1054cbfff
+# ╠═46da2ed2-61be-42e3-8893-d8e0d8f63ea3
 # ╟─098dfe77-902a-4dc9-b646-d60a275eefe9
 # ╟─d33ce047-19e3-44c3-ae07-9e608ee8b1a2
 # ╟─b559174e-af8b-4ccb-9027-f37ef4d24361
