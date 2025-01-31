@@ -526,7 +526,7 @@ PlutoUI = "~0.7.60"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.2"
+julia_version = "1.11.3"
 manifest_format = "2.0"
 project_hash = "8aa109ae420d50afa1101b40d1430cf3ec96e03e"
 
@@ -811,7 +811,7 @@ version = "17.4.0+2"
 # ╟─def58513-b735-4907-8edc-a6e0d915c14a
 # ╟─4e56ef31-9cf5-457c-ae45-2e1559defcd9
 # ╟─7516bd87-2218-4bf3-af57-c76619e6ac0c
-# ╠═df3687ec-edff-471c-b64e-fac3af177f1a
+# ╟─df3687ec-edff-471c-b64e-fac3af177f1a
 # ╟─f8bb3bee-cb49-43ed-86eb-fd47563b774f
 # ╟─3aae6539-f566-4b30-9807-16d0d6acbdd2
 # ╟─84245768-6b83-4a54-a6c3-d6e735d0e6fb
