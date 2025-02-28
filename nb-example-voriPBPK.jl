@@ -246,15 +246,20 @@ end
 # ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
 md"### Simulate a population"
 
+# ╔═╡ a584b244-2412-4d6b-9528-106951ad7c63
+begin
+	Random.seed!(123)  # set seed for reproducibility
+	vmaxhs = rand(LogNormal(log(40.0), 0.3), 10)
+end
+
 # ╔═╡ b02de510-6dd0-4c8e-9aef-37fca72b488a
 begin
-## create simulation function
-	Random.seed!(123)  # set seed for reproducibility
+	## create simulation function
 	function prob_func(prob, i, repeat)
-	    remake(prob; p = [:VmaxH => rand(LogNormal(log(40.0), 0.3))])
+	    remake(prob; p = [:VmaxH => vmaxhs[i]])
 	end
 	ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
-	ensemble_sol = solve(ensemble_prob, Tsit5(), trajectories = 10)
+	ensemble_sol = solve(ensemble_prob, Tsit5(), EnsembleSerial(), trajectories = 10)
 end
 
 # ╔═╡ 3a3f279b-5935-4171-a638-828ed39d69ac
@@ -273,7 +278,10 @@ md"##### Serial"
 md"##### Parallel"
 
 # ╔═╡ ac528337-c9c2-404a-bac7-0b1b93c3791a
+# ╠═╡ disabled = true
+#=╠═╡
 @time ensemble_sol_parallel = solve(ensemble_prob, Tsit5(), EnsembleThreads(), trajectories = 10);
+  ╠═╡ =#
 
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
 md"## Sensitivity analysis"
@@ -302,7 +310,7 @@ sens_prob = EnsembleProblem(prob, prob_func = prob_func_sens)
 md"### Solve sensitivity problem"
 
 # ╔═╡ 0b531cc5-399e-47e3-b593-47ba1c09101b
-sens_sol = solve(sens_prob, Tsit5(), trajectories = length(Kpmus))
+sens_sol = DifferentialEquations.solve(sens_prob, Tsit5(), trajectories = length(Kpmus))
 
 # ╔═╡ 0589ac9d-3ff6-44e0-971b-2886a8d03561
 md"### Plot"
@@ -417,6 +425,7 @@ end
 # ╠═53283fe1-61e8-4d13-ac54-74a55784fda3
 # ╠═cf30ba65-c7dc-4dc4-abaa-e114324b39b9
 # ╟─d5d9de24-dcba-4bc6-b33b-76bf13d6395d
+# ╠═a584b244-2412-4d6b-9528-106951ad7c63
 # ╠═b02de510-6dd0-4c8e-9aef-37fca72b488a
 # ╠═3a3f279b-5935-4171-a638-828ed39d69ac
 # ╟─bec6081e-97fc-44c6-a598-781884dfdcd6
