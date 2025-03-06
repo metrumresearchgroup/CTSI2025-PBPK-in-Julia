@@ -38,6 +38,22 @@ LocalResource(
 	:width => 400
 )
 
+# ╔═╡ ddc2a99f-0f6d-461e-b9e2-39f63e37bfc7
+md"## Equations"
+
+# ╔═╡ cfce7693-9afa-4888-b2be-01691e0bd930
+md"
+non-eliminating tissue: $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right)$
+
+eliminating tissue: $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right) - fu_B \cdot CL_T \cdot \frac{C_T}{\frac{Kp_T}{BP}}$
+
+arterial blood: $\frac{A_A}{dt} = Q_{Lu} \left( \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} - C_A \right)$
+
+venous blood: $\frac{A_V}{dt} = \sum_{T \neq {Lu}} \left( Q_T \cdot \frac{C_T}{\frac{Kp_T}{BP}} \right) - Q_{Lu} \cdot C_V$
+
+lungs: $\frac{A_{Lu}}{dt} = Q_{Lu} \left( C_V - \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} \right)$
+"
+
 # ╔═╡ e308fc4a-157d-486b-8d06-317cbad4283d
 md"## Libraries"
 
@@ -401,6 +417,8 @@ end
 # ╟─98a5a8f5-79ef-4cff-ab2e-592b5358a90f
 # ╟─3179d612-eb4e-4007-b3c5-18bbc2d8e4ed
 # ╟─9d8005dc-89bd-42e4-a0b5-abcb75d3e80b
+# ╟─ddc2a99f-0f6d-461e-b9e2-39f63e37bfc7
+# ╟─cfce7693-9afa-4888-b2be-01691e0bd930
 # ╟─e308fc4a-157d-486b-8d06-317cbad4283d
 # ╠═8b19cc51-8ddf-4f4d-8e85-06953641d9f7
 # ╠═25751995-8656-4346-8dca-2df4c342b095
