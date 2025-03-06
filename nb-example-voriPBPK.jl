@@ -43,15 +43,15 @@ md"## Equations"
 
 # ╔═╡ cfce7693-9afa-4888-b2be-01691e0bd930
 md"
-non-eliminating tissue: $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right)$
+**non-eliminating tissue:** $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right)$
 
-eliminating tissue: $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right) - fu_B \cdot CL_T \cdot \frac{C_T}{\frac{Kp_T}{BP}}$
+**eliminating tissue:** $\frac{A_T}{dt} = Q_T \left( C_A - \frac{C_T}{\frac{Kp_T}{BP}} \right) - fu_B \cdot CL_T \cdot \frac{C_T}{\frac{Kp_T}{BP}}$
 
-arterial blood: $\frac{A_A}{dt} = Q_{Lu} \left( \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} - C_A \right)$
+**arterial blood:** $\frac{A_A}{dt} = Q_{Lu} \left( \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} - C_A \right)$
 
-venous blood: $\frac{A_V}{dt} = \sum_{T \neq {Lu}} \left( Q_T \cdot \frac{C_T}{\frac{Kp_T}{BP}} \right) - Q_{Lu} \cdot C_V$
+**venous blood:** $\frac{A_V}{dt} = \sum_{T \neq {Lu}} \left( Q_T \cdot \frac{C_T}{\frac{Kp_T}{BP}} \right) - Q_{Lu} \cdot C_V$
 
-lungs: $\frac{A_{Lu}}{dt} = Q_{Lu} \left( C_V - \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} \right)$
+**lungs:** $\frac{A_{Lu}}{dt} = Q_{Lu} \left( C_V - \frac{C_{Lu}}{\frac{Kp_{Lu}}{BP}} \right)$
 "
 
 # ╔═╡ e308fc4a-157d-486b-8d06-317cbad4283d
