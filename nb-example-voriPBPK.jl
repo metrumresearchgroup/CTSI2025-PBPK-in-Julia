@@ -61,7 +61,10 @@ md"## Libraries"
 md"## Model development"
 
 # ╔═╡ 8130c483-9d2c-4425-8cd5-3dd89b93a5be
-md"### Create model function"
+md"
+### Create model function
+Within the model function, you can define the parameters, initial conditions, and ODEs
+"
 
 # ╔═╡ 57966d02-b00e-4e65-b46d-43d9d343123d
 PBPK = function(; name)
@@ -204,13 +207,22 @@ md"### Build model"
 md"## Simulation"
 
 # ╔═╡ 7c4f551f-2667-4e6b-955a-568a993261a8
-md"### Create ODE problem"
+md"
+### Create ODE problem
+- The ODE problem is defined using the `ODEProblem` function. 
+- The function needs the model object, initial conditions, time span for simulation, and parameters. 
+- If default values for initial conditions and parameters were provided in the model function, then you can just add placeholders for these with the `ODEProblem` call.
+"
 
 # ╔═╡ 93e5fd52-20aa-48dd-8cbc-d8c5f934f70b
 prob = ODEProblem(pbpk, [], (0.0, 24.0), [])
 
 # ╔═╡ e9d019eb-1244-47ca-b1d7-74dae4db3975
-md"### Solve"
+md"
+### Solve
+- Use the `solve` function to solve the ODE problem.
+- You can define solver options here, like solver to use, tolerance, intervals for saving output, etc... For a list of solver choices check out [https://docs.sciml.ai/DiffEqDocs/stable/solvers/ode_solve/](https://docs.sciml.ai/DiffEqDocs/stable/solvers/ode_solve/)  
+"
 
 # ╔═╡ 858cda2e-7fde-4120-a60f-d104e429b5e8
 sol = solve(prob, Tsit5())
@@ -222,7 +234,12 @@ md"### Plot"
 plot(sol, idxs = :CP)
 
 # ╔═╡ eb777312-2d68-4e65-adb0-f300de86c4bc
-md"### Callback"
+md"
+### Callback
+- Callbacks introduce interruptions in simulations (dosing events, time-varying covariates, etc...)
+- They can be defined within the model function using the `discrete_events` argument to the `ODESystem` function.
+- They can also be handled outside the model function by creating a callback function, using `PresetTimeCallback` function, which can then be called using the `callback` argument with the `solve` call.
+"
 
 # ╔═╡ 1ce648ce-687b-4184-a085-575c9ab9819c
 begin
