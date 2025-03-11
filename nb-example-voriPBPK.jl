@@ -258,7 +258,10 @@ end
 plot(sol_cb, idxs = :CP)
 
 # ╔═╡ c820a6ef-1077-4eae-b1b2-1a37234e3046
-md"### Update parameter"
+md"
+### Update parameter
+Being able to update parameters is particularly useful when running parameter optimization.
+"
 
 # ╔═╡ cc1ea82e-9821-4be3-9d86-de4ce2dcef7c
 prob.ps[:VmaxH]
@@ -277,7 +280,12 @@ begin
 end
 
 # ╔═╡ d5d9de24-dcba-4bc6-b33b-76bf13d6395d
-md"### Simulate a population"
+md"
+### Simulate a population
+- Simulating a population is done by creating an ensemble problem using the `EnsembleProblem` function.
+- The `solve` function would need the number of trajectories (number of individuals in the population).
+- You can also define whether to solve the problem in serial or parallel (`EnsembleSerial()` or `EnsembleParallel()`).
+"
 
 # ╔═╡ a584b244-2412-4d6b-9528-106951ad7c63
 begin
@@ -317,7 +325,10 @@ md"##### Parallel"
   ╠═╡ =#
 
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
-md"## Sensitivity analysis"
+md"
+## Sensitivity analysis
+Sensitivity analysis can be useful to pinpoint the most influential parameters to optimize.
+"
 
 # ╔═╡ 4f47375b-2a82-473f-9d51-fdcc9ce6001d
 md"### Create sensitivity array"
@@ -352,7 +363,10 @@ md"### Plot"
 plot(sens_sol, idxs = :CP)
 
 # ╔═╡ 8039ca65-bb01-4428-b3c5-6de0c866912c
-md"## Optimization"
+md"
+## Optimization
+Parameter optimization is carried out to finetune the model parameters to fit observed data.
+"
 
 # ╔═╡ aa86aafd-e409-4180-a51b-15b74aae8ffd
 md"### Read observed data"
