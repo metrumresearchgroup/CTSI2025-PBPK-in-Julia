@@ -327,7 +327,7 @@ md"##### Parallel"
 # ╔═╡ e248433b-71b1-4d1b-ab43-d5a26b354605
 md"
 ## Sensitivity analysis
-Sensitivity analysis can be useful to pinpoint the most influential parameters to optimize.
+Sensitivity analysis can be useful to pinpoint the most influential parameters to optimize. This can be done by making a change to the parameter value and observe the impact of that change on the output of interest (like plasma concentration).
 "
 
 # ╔═╡ 4f47375b-2a82-473f-9d51-fdcc9ce6001d
@@ -366,6 +366,13 @@ plot(sens_sol, idxs = :CP)
 md"
 ## Optimization
 Parameter optimization is carried out to finetune the model parameters to fit observed data.
+"
+
+# ╔═╡ ba8139dc-751f-40d9-8dd3-545f38288a04
+md"
+To run an optimization problem, you will need:
+- A loss function that computes the difference between the observed and predicted data
+- An optimizer that would search for the parameter values that would minimize the loss function
 "
 
 # ╔═╡ aa86aafd-e409-4180-a51b-15b74aae8ffd
@@ -494,6 +501,7 @@ end
 # ╟─0589ac9d-3ff6-44e0-971b-2886a8d03561
 # ╠═20eddb8c-4859-411e-ab25-94cb7ea61595
 # ╟─8039ca65-bb01-4428-b3c5-6de0c866912c
+# ╟─ba8139dc-751f-40d9-8dd3-545f38288a04
 # ╟─aa86aafd-e409-4180-a51b-15b74aae8ffd
 # ╠═8aa63f09-d953-4459-a50a-3a2665722b7c
 # ╟─b4891fca-ccf1-40f8-b437-f9b8fab4c1f5
