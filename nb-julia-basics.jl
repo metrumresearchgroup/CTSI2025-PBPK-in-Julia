@@ -15,7 +15,7 @@ md"# What is Julia?"
 
 # ╔═╡ 9b0ec46c-568f-4fbb-9393-b984951deadd
 md"
-Julia is a high-level, high-performance programming language designed for technical computing and data science.
+Julia is a high-level, open-source programming language designed for technical computing, scientific computing, and data analysis
 "
 
 # ╔═╡ def58513-b735-4907-8edc-a6e0d915c14a
