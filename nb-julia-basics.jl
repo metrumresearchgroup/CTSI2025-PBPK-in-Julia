@@ -15,7 +15,8 @@ md"# What is Julia?"
 
 # ╔═╡ 9b0ec46c-568f-4fbb-9393-b984951deadd
 md"
-Julia is a high-level, open-source programming language designed for technical computing, scientific computing, and data analysis
+- Julia is a high-level, open-source programming language designed for technical computing, scientific computing, and data analysis.
+- It was developed by Jeff Bezanson, Stefan Karpinski, Viral B. Shah, and Alan Edelman, who started working on it in 2009. The language was officially introduced in 2012.
 "
 
 # ╔═╡ def58513-b735-4907-8edc-a6e0d915c14a
