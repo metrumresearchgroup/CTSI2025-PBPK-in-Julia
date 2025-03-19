@@ -41,8 +41,22 @@ LocalResource(
 	:width => 600
 )
 
-# ╔═╡ f8bb3bee-cb49-43ed-86eb-fd47563b774f
+# ╔═╡ e7ba9d4b-5ad0-4974-8579-02c41125876b
 md"https://docs.sciml.ai/Overview/stable/overview/"
+
+# ╔═╡ 77262703-3b3f-46d5-bfbf-c8ad60c6e3f2
+md"
+SciML solvers performance compared to commonly used solvers in R, MATLAB, Python, FORTRAN, and C++
+"
+
+# ╔═╡ 4805640a-a85b-4b2f-bae5-4141b6a7e8d0
+LocalResource(
+	"figs/solver-comparison.png",
+	:width => 600
+)
+
+# ╔═╡ f8bb3bee-cb49-43ed-86eb-fd47563b774f
+md"https://docs.sciml.ai/Overview/v1.6/comparisons/cppfortran/"
 
 # ╔═╡ 3aae6539-f566-4b30-9807-16d0d6acbdd2
 md"# Syntax"
@@ -96,6 +110,10 @@ log(3.0)
 # ╔═╡ 6ecc2fd9-2726-412d-9f53-b043960bbdf3
 # exponential
 exp(3.0)
+
+# ╔═╡ f45e955a-8fa9-4847-bfa4-1821666a41a8
+# semicolon suppresses output
+exp(3.0);
 
 # ╔═╡ 6398ec02-35d6-438c-b0e9-6a708ef59e2d
 md"## Logical operators"
@@ -813,6 +831,9 @@ version = "17.4.0+2"
 # ╟─4e56ef31-9cf5-457c-ae45-2e1559defcd9
 # ╟─7516bd87-2218-4bf3-af57-c76619e6ac0c
 # ╟─df3687ec-edff-471c-b64e-fac3af177f1a
+# ╟─e7ba9d4b-5ad0-4974-8579-02c41125876b
+# ╟─77262703-3b3f-46d5-bfbf-c8ad60c6e3f2
+# ╟─4805640a-a85b-4b2f-bae5-4141b6a7e8d0
 # ╟─f8bb3bee-cb49-43ed-86eb-fd47563b774f
 # ╟─3aae6539-f566-4b30-9807-16d0d6acbdd2
 # ╟─84245768-6b83-4a54-a6c3-d6e735d0e6fb
@@ -828,6 +849,7 @@ version = "17.4.0+2"
 # ╠═eb011598-a820-49ca-9184-1e3fb4508cfe
 # ╠═b11bb123-99f0-4873-ae04-1f7c42b2656a
 # ╠═6ecc2fd9-2726-412d-9f53-b043960bbdf3
+# ╠═f45e955a-8fa9-4847-bfa4-1821666a41a8
 # ╟─6398ec02-35d6-438c-b0e9-6a708ef59e2d
 # ╠═32b1bdd1-0693-4f25-9a7e-0a6049617435
 # ╠═267812b4-8506-47f3-aeae-d75d19d6aa50
