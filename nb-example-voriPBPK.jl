@@ -39,7 +39,7 @@ LocalResource(
 )
 
 # ╔═╡ ddc2a99f-0f6d-461e-b9e2-39f63e37bfc7
-md"## Equations"
+md"## Equations (flow-limited)"
 
 # ╔═╡ cfce7693-9afa-4888-b2be-01691e0bd930
 md"
